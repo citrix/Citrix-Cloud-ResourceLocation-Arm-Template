@@ -201,7 +201,7 @@
         "artifactsBaseUrl": "",
         "description": "Specifies the base location of the child templates and desired state configuration scripts."
       },
-      "defaultValue": "https://raw.githubusercontent.com/simongdavies/cuddly-octo-fortnight/master"
+      "defaultValue": "https://raw.githubusercontent.com/citrix/Citrix-Cloud-ResourceLocation-Arm-Template/master"
     },
 
     "artifactsBaseUrlSasToken": {
