@@ -1,0 +1,205 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vhdStorageAccount": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the storage account used for virtual machine disks. This has to be a unique name, up to 24 chars, all lowercase."
+      }
+    },
+   "imageUri": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the user image URI to provision this machine on. Must contain the 7.7 release of XenApp."
+      }
+    },
+    "publisher": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the marketplace publisher of the image to provision this machine on."
+      }
+    },
+    "offer": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the marketplace offer of the image to provision this machine on."
+      }
+    },
+    "sku": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the marketplace sku of the image to provision this machine on."
+      }
+    },
+    "machineSize": {
+      "type": "string",
+      "defaultValue": "Standard_A2",      
+      "metadata": {
+        "description": "Specifies the size of the virtual machine."
+      }
+    },
+    "machineName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of this machine in Azure and on the network."
+      }
+    },
+    "privateIp": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the static IP to assign to this machine."
+      }
+    },
+    "availabilitySetId": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the availability set this machine should belong to."
+      }
+    },
+    "subnetId": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the id of the subnet the machine should connect to."
+      }
+    },
+    "dnsServers": {
+      "type": "array",
+      "metadata": {
+        "description": "Specifies a list of DNS servers the machine should use."
+      }
+    },
+    "lbBapId": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the id of the load balancer's back end address pool."
+      }
+    },
+    "lbInboundRules": {
+      "type": "array",
+      "metadata": {
+        "description": "Specifies a list of inbound NAT rules to apply to this VM."
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the administrator for machines, Active Directory domain, NetScaler and XenApp. Exclusion list: 'admin','administrator'. Must be no more than 9 alphanumeric characters."
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Specifies the password of the administrator for machines, Active Directory domain, NetScaler and XenApp."
+      }
+    }
+  },
+  "variables": {
+    "imagePublisher": "[parameters('publisher')]",
+    "imageOffer": "[parameters('offer')]",
+    "imageSKU": "[parameters('sku')]",
+    "planPublisher": "[parameters('publisher')]",
+    "planProduct": "[parameters('offer')]",
+    "planName": "[parameters('sku')]",
+    "nicName": "[concat(parameters('machineName'),'-Nic')]",
+    "nicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]",
+    "machineId": "[resourceId('Microsoft.Compute/virtualMachines',parameters('machineName'))]",
+    "osDiskName": "[concat(resourceGroup().name,'-',parameters('machineName'),'-osdisk')]",
+    "osDiskUri": "[concat('http://',parameters('vhdStorageAccount'),'.blob.core.windows.net/vhds/',variables('osDiskName'),'.vhd')]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('nicName')]",
+      "tags": {
+        "displayName": "NetscalerNic"
+      },
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[parameters('privateIp')]",
+              "subnet": {
+                "id": "[parameters('subnetId')]"
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[parameters('lbBapId')]"
+                }
+              ],
+              "loadBalancerInboundNatRules": "[parameters('lbInboundRules')]"
+            }
+          }
+        ]
+      }
+    },
+
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[parameters('machineName')]",
+      "tags": {
+        "displayName": "NetscalerVM"
+      },
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[variables('nicId')]"
+      ],
+     "properties": {
+        "availabilitySet": {
+          "id": "[parameters('availabilitySetId')]"
+        },
+        "hardwareProfile": {
+          "vmSize": "[parameters('machineSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('machineName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]",
+          "linuxConfiguration": {
+            "disablePasswordAuthentication": "false"
+          }
+        },
+        "storageProfile": {
+          "osDisk": {
+            "image": {
+              "uri": "[parameters('imageUri')]"
+            },
+            "osType":  "Linux",
+            "name": "osDisk",
+            "vhd": {
+              "uri": "[variables('osDiskUri')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[variables('nicId')]"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "machineId": {
+      "type": "string",
+      "value": "[variables('machineId')]"
+    },
+    "nicId": {
+      "type": "string",
+      "value": "[variables('nicId')]"
+    },
+    "nicName": {
+      "type": "string",
+      "value": "[variables('nicName')]"
+    }
+  }
+}

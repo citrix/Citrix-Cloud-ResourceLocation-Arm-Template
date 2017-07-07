@@ -1,0 +1,121 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "domainName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the Active Directory domain."
+      }
+    },
+    "domainControllerIp": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the IP of a domain controller on the virtual network."
+      }
+    },
+    "domainControllerFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the FQDN of a domain controller on the virtual network."
+      }
+    },        
+    "deliveryControllerFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the XenApp delivery controller on the virtual network."
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the administrator for machines, Active Directory domain, NetScaler and XenApp. Exclusion list: 'admin','administrator'. Must be no more than 9 alphanumeric characters."
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Specifies the password of the administrator for machines, Active Directory domain, NetScaler and XenApp."
+      }
+    },
+    "deploymentFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the FQDN of the Azure public IP to which the gateway FQDN will be forwarded."
+      }
+    },
+    "gatewayFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the FQDN where the user will reach the deployment."
+      }
+    },    
+    "artifactsLocationSasToken": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the shared access signature token which provides access to the base artifacts location."
+      }
+    },    
+    "configurationFileUrl": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the URI of the DSC configuration script."
+      }
+    },
+    "configurationFunction": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the function to be executed in the DSC configuration script."
+      }
+    },
+	"InstallerPath": {	  
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the XenApp delivery controller on the virtual network."
+      }
+    }
+  },
+  "variables": {
+
+  },
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('machineName'),'/configure')]",
+            "apiVersion": "2015-06-15",
+            "tags": {
+                "displayName": "VdaConfiguration"
+            },
+            "location": "[parameters('location')]",
+            "properties": {
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "autoUpgradeMinorVersion": true,
+                "typeHandlerVersion": "2.19",
+                "settings": {
+                    "modulesUrl": "[parameters('configurationFileUrl')]",
+                    "sasToken": "[parameters('artifactsLocationSasToken')]",
+                    "configurationFunction": "[parameters('configurationFunction')]",
+                    "Properties": {
+                        "DomainName": "[parameters('domainName')]",
+                        "AdminCreds": {
+                            "UserName": "[parameters('adminUsername')]",
+                            "Password": "PrivateSettingsRef:adminPassword"
+                        },
+                        "DomainController": "[parameters('domainControllerFQDN')]",
+                        "DomainControllerIp": "[parameters('domainControllerIp')]",
+                        "DeliveryController": "[parameters('deliveryControllerFQDN')]",
+                        "DeploymentFQDN": "[parameters('deploymentFQDN')]",
+                        "GatewayFQDN": "[parameters('gatewayFQDN')]",                        
+						"InstallerUrl": "[parameters('InstallerPath')]"
+                    }
+                },
+                "protectedSettings": {
+                    "Items": {
+                        "adminPassword": "[parameters('adminPassword')]"
+                    }
+                }
+            }
+        }
+    ]
+}

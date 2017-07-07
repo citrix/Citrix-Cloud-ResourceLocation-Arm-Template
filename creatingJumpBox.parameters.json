@@ -1,0 +1,90 @@
+{
+  "schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminPassword": {
+      "value": null
+    },
+    "adminUsername": {
+      "value": null
+    },
+    "artifactsLocationSasToken": {
+      "value": null
+    },
+    "artifactsLocationUri": {
+      "value": null
+    },
+    "availabilitySetId": {
+      "value": null
+    },
+    "configurationFileUrl": {
+      "value": null
+    },
+    "configurationFunction": {
+      "value": null
+    },
+    "dscVersion": {
+      "value": null
+    },
+    "lbBapId": {
+      "value": null
+    },
+    "lbInboundRules": {
+      "value": null
+    },
+    "machineName": {
+      "value": null
+    },
+    "machineSize": {
+      "value": "Standard_A2"
+    },
+    "offer": {
+      "value": "WindowsServer"
+    },
+    "publisher": {
+      "value": "MicrosoftWindowsServer"
+    },
+    "shortcuts": {
+      "value": [
+        {
+          "name": "Domain Controller",
+          "category": "Remote Desktop Connections",
+          "path": "[variables('paths').rdpPath]",
+          "icon": "[variables('paths').rdpPath]",
+          "arguments": "[concat('/v:', variables('domainControllerSettings').machineName)]"
+        },
+        {
+          "name": "Cloud Connector",
+          "category": "Remote Desktop Connections",
+          "path": "[variables('paths').rdpPath]",
+          "icon": "[variables('paths').rdpPath]",
+          "type": "Shortcut",
+          "arguments": "[concat('/v:', variables('deliveryControllerSettings').machineName)]"
+        },
+        {
+          "name": "XenDesktop VDI",
+          "category": "Remote Desktop Connections",
+          "path": "[variables('paths').rdpPath]",
+          "icon": "[variables('paths').rdpPath]",
+          "arguments": "[concat('/v:', 'XA-VDI')]"
+        },
+        {
+          "name": "NetScaler Web UI",
+          "category": "NetScaler Management",
+          "path": "[variables('paths').iePath]",
+          "icon": "[variables('paths').iePath]",
+          "arguments": "[variables('paths').netScalerUrl]"
+        }
+      ]
+    },
+    "sku": {
+      "value": "2012-R2-Datacenter"
+    },
+    "subnetId": {
+      "value": null
+    },
+    "vhdStorageAccount": {
+      "value": null
+    }
+  }
+}

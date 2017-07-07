@@ -1,0 +1,56 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "loadBalancerName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the resource name of the load balancer."
+      }
+    },
+    "loadBalancerId": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the id of the load balancer's back end address pool."
+      }
+    },
+    "inboundRuleName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of an inbound rule to update."
+      }
+    },
+    "frontendPort": {
+      "type": "int",
+      "metadata": {
+        "description": "Specifies the new frontend port for the inbound rule."
+      }
+    },
+    "backendPort": {
+      "type": "int",
+      "metadata": {
+        "description": "Specifies the new backend port for the inbound rule."
+      }
+    }
+  },
+  "variables": {
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+      "name": "[concat(parameters('loadBalancerName'), '/', parameters('inboundRuleName'))]",
+      "properties": {
+        "frontendIPConfiguration": {
+          "id": "[concat(resourceId('Microsoft.Network/loadBalancers','loadBalancer'),'/frontendIPConfigurations/LBFE')]"
+        },
+        "protocol": "tcp",
+        "frontendPort": "[parameters('frontendPort')]",
+        "backendPort": "[parameters('backendPort')]",
+        "enableFloatingIP": false
+      }
+    }
+  ],
+  "outputs": {
+  }
+}

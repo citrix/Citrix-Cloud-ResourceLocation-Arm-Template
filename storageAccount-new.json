@@ -1,0 +1,55 @@
+﻿
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "metadata": {
+        "Description": "Specifies the location of the storage account."
+      }
+    },
+    "vhdStorageAccount": {
+      "type": "string",
+      "metadata": {
+        "Description": "Specifies the name of the storage account used for virtual machine disks. This has to be a unique name, up to 24 chars, all lowercase."
+      }
+    },
+    "vhdStorageType": {
+      "type": "string",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Premium_LRS"
+      ],
+      "metadata": {
+        "Description": "Specifies the type of storage account, if being created."
+      },
+      "defaultValue": "Premium_LRS"
+    },
+    "vhdStorageGroup": {
+      "type": "string",
+      "metadata": {
+        "Description": "Specifies the resource group which should contain the storage account."
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[parameters('vhdStorageAccount')]",
+      "apiVersion": "2015-06-15",
+      "location": "[parameters('location')]",
+      "properties": {
+        "accountType": "[parameters('vhdStorageType')]"
+      }
+    }
+  ],
+  "outputs": {
+    "storageAccountId": {
+      "value": "[resourceId('Microsoft.Storage/StorageAccounts',parameters('vhdStorageAccount'))]",
+      "type": "string"
+    }
+  }
+}

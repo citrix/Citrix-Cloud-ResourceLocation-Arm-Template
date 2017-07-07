@@ -1,0 +1,109 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourcegroup().location]",
+      "metadata": {
+        "description": "Specifies the Location for the deployment."
+      }
+    },
+	"artifactsLocationUri": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the shared access signature token which provides access to the base artifacts location."
+      }
+    },
+    "artifactsLocationSasToken": {
+      "type": "string",
+      "metadata": {
+        "description": "Token allowing for access of asset location"
+      }
+    },
+	"machineName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of this machine in Azure and on the network."
+      }
+    },
+	"domainName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the Active Directory domain."
+      }
+    },
+	"domainControllerIp": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the IP of a domain controller on the virtual network."
+      }
+    },
+	"adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the administrator of the new VM and the domain. Exclusion list: 'admin','administrator"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The password for the administrator account of the new VM and the domain"
+      }
+    },
+	"deliveryControllerFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the XenApp delivery controller on the virtual network."
+      }
+    },	
+	"InstallerPath": {	  
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the XenApp delivery controller on the virtual network."
+      }
+    },
+	"CreateMasterImage": {
+      "type": "string",
+      "metadata": {
+        "description": "Specify wether VDI should be provisioned or Not."
+      },
+      "defaultValue": "false",
+      "allowedValues": [
+        "true",
+        "false"
+      ]
+    }
+  },
+  "variables": {	
+	"args": "[concat('-DeliveryController cloudconnector.xenapp.local -DomainName ' ,parameters('domainName') ,' -UserName ', parameters('adminUsername'), ' -Password ',  parameters('adminPassword'), ' -setupLocation ', parameters('InstallerPath'), ' -CreateMasterImage ', parameters('CreateMasterImage'))]"
+  },
+  "resources": [
+	{
+		"type": "Microsoft.Compute/virtualMachines/extensions",
+		"name": "[concat(parameters('machineName'),'/configureController')]",
+		"apiVersion": "2015-06-15",
+		"tags": {
+			"displayName": "VdiConfiguration"
+		},		
+		"location": "[parameters('location')]",		
+		"properties": {
+			"publisher": "Microsoft.Compute",
+			"type": "CustomScriptExtension",
+            "typeHandlerVersion": "1.8",
+            "autoUpgradeMinorVersion": true,
+			"settings": {
+						"fileUris": [
+							"[concat(parameters('artifactsLocationUri'), '/Resources/VDICustomScript/VDICustomScript.ps1')]"
+						],
+						"commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File C:\\Packages\\Plugins\\Microsoft.Compute.CustomScriptExtension\\1.8\\Downloads\\0\\Resources\\VDICustomScript\\VDICustomScript.ps1 ', variables('args'))]"
+			},
+			"protectedSettings": {
+				"Items": {
+					"adminPassword": "[parameters('adminPassword')]"
+				}
+			}
+		}
+	}
+  ]
+}

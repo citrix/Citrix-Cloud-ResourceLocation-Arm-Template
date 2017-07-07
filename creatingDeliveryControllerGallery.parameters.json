@@ -1,0 +1,148 @@
+{
+  "schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "acmeServer": {
+      "value": "https://acme-staging.api.letsencrypt.org/"
+    },
+    "adminPassword": {
+      "value": null
+    },
+    "adminUsername": {
+      "value": null
+    },
+    "appGroups": {
+      "value": [
+        {
+          "title": "Administrative Apps",
+          "description": "Applications for a XenApp administrator",
+          "tile": "appBundle1",
+          "category": "Administrative Apps"
+        },
+        {
+          "title": "Remote Desktop Connections",
+          "description": "Connect to machines in the XenApp deployment",
+          "tile": "appBundle2",
+          "category": "Remote Desktop Connections"
+        },
+        {
+          "title": "NetScaler Management",
+          "description": "Applications for a NetScaler administrator",
+          "tile": "appBundle3",
+          "category": "NetScaler Management"
+        }
+      ]
+    },
+    "artifactsLocationSasToken": {
+      "value": null
+    },
+    "artifactsLocationUri": {
+      "value": null
+    },
+    "availabilitySetId": {
+      "value": null
+    },
+    "configurationFileUrl": {
+      "value": null
+    },
+    "configurationFunction": {
+      "value": null
+    },
+    "deliveryControllerFQDN": {
+      "value": null
+    },
+    "deploymentFQDN": {
+      "value": null
+    },
+    "domainControllerFQDN": {
+      "value": null
+    },
+    "domainControllerPrivateIp": {
+      "value": null
+    },
+    "domainName": {
+      "value": null
+    },
+    "dscVersion": {
+      "value": null
+    },
+    "emailAddress": {
+      "value": null
+    },
+    "encodedNetscalerLicense": {
+      "value": null
+    },
+    "forwardServerPort": {
+      "value": null
+    },
+    "gatewayFQDN": {
+      "value": null
+    },
+    "html5Mode": {
+      "value": "Always"
+    },
+    "imageUri": {
+      "value": null
+    },
+    "lbBapId": {
+      "value": null
+    },
+    "lbInboundRules": {
+      "value": null
+    },
+    "licenseServerFQDN": {
+      "value": null
+    },
+    "machineName": {
+      "value": null
+    },
+    "machineSize": {
+      "value": "Standard_A2"
+    },
+    "netScalerPrivateIp": {
+      "value": null
+    },
+    "offer": {
+      "value": null
+    },
+    "privateIp": {
+      "value": null
+    },
+    "publisher": {
+      "value": null
+    },
+    "siteName": {
+      "value": null
+    },
+    "sku": {
+      "value": null
+    },
+    "sqlServerFQDN": {
+      "value": null
+    },
+    "sqlServerInstance": {
+      "value": null
+    },
+    "storeFrontFQDN": {
+      "value": null
+    },
+    "storeFrontGatewayName": {
+      "value": null
+    },
+    "subnetId": {
+      "value": null
+    },
+    "themeUri": {
+      "value": null
+    },
+    "vhdStorageAccount": {
+      "value": null
+    },
+    "virtualServerName": {
+      "value": null
+    },
+    "virtualServerPort": {
+      "value": null
+    }
+  }
+}

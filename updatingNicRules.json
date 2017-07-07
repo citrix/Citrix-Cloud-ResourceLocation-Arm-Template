@@ -1,0 +1,71 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "nicName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the NIC whose inbound rules are to be updated."
+      }
+    },
+    "lbBapId": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the id of the load balancer's back end address pool."
+      }
+    },
+    "privateIp": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the NIC's private IP."
+      }
+    },
+    "subnetId": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the id of the subnet the machine is connected to."
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourcegroup().location]",
+      "metadata": {
+        "description": "Specifies the Location for the deployment."
+      }
+    },
+    "rules": {
+      "type": "array",
+      "metadata": {
+        "description": "Specifies a list of inbound NAT rules to apply to the NIC."
+      }
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[parameters('nicName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[parameters('privateIp')]",
+              "subnet": {
+                "id": "[parameters('subnetId')]"
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[parameters('lbBapId')]"
+                }
+              ],
+              "loadBalancerInboundNatRules": "[parameters('rules')]"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

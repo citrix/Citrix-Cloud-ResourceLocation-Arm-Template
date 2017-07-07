@@ -1,0 +1,470 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+
+    // Infrastructure
+    "vhdStorageAccount": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the storage account used for virtual machine disks. This has to be a unique name, up to 24 chars, all lowercase."
+      }
+    },
+    "imageUri": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the user image URI to provision this machine on. Must contain the 7.7 release of XenApp."
+      }
+    },
+    "publisher": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the marketplace publisher of the image to provision this machine on."
+      }
+    },
+    "offer": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the marketplace offer of the image to provision this machine on."
+      }
+    },
+    "sku": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the marketplace sku of the image to provision this machine on."
+      }
+    },
+    "machineSize": {
+      "type": "string",
+      "defaultValue": "Standard_A2",
+      "metadata": {
+        "description": "Specifies the size of the virtual machine."
+      }
+    },
+    "machineName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of this machine in Azure and on the network."
+      }
+    },
+    "privateIp": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the static IP to assign to this machine."
+      }
+    },
+    "availabilitySetId": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the availability set this machine should belong to."
+      }
+    },
+    "subnetId": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the id of the subnet the machine should connect to."
+      }
+    },
+    "dnsServers": {
+      "type": "array",
+      "metadata": {
+        "description": "Specifies a list of DNS servers the machine should use."
+      }
+    },
+    "lbBapId": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the id of the load balancer's back end address pool."
+      }
+    },
+    "lbInboundRules": {
+      "type": "array",
+      "metadata": {
+        "description": "Specifies a list of inbound NAT rules to apply to this VM."
+      }
+    },
+
+    // Credentials and domain
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the administrator for machines, Active Directory domain, NetScaler and XenApp. Exclusion list: 'admin','administrator'. Must be no more than 9 alphanumeric characters."
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Specifies the password of the administrator for machines, Active Directory domain, NetScaler and XenApp."
+      }
+    },
+    "domainName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the Active Directory domain."
+      }
+    },
+    "domainControllerFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the Active Directory domain controller on the virtual network."
+      }
+    },
+    "domainControllerPrivateIp": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the private IP of a domain controller on the virtual network."
+      }
+    },
+
+    // Delegated servers
+    "sqlServerFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of a SQL server on the virtual network used for hosting the site database."
+      }
+    },
+    "sqlServerInstance": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the instance name of the SQL server used for hosting the site database."
+      }
+    },
+    "licenseServerFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of a Citrix license server on the virtual network."
+      }
+    },
+    "netScalerPrivateIp": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the private IP of a NetScaler on the virtual network."
+      }
+    },
+
+    // StoreFront
+    "storeFrontFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of a StoreFront on the virtual network."
+      }
+    },
+    "virtualServerName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the NetScaler virtual server to be created for serving StoreFront content."
+      }
+    },
+    "virtualServerPort": {
+      "type": "int",
+      "metadata": {
+        "description": "Specifies the port of the NetScaler virtual server to be created for serving StoreFront content."
+      }
+    },
+    "forwardServerPort": {
+      "type": "int",
+      "metadata": {
+        "description": "Specifies the port of the NetScaler virtual server to be created for forwarding http connections to https."
+      }
+    },
+    "storeFrontGatewayName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the NetScaler gateway in StoreFront."
+      }
+    },
+    "emailAddress": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the email address that that will be used to request a public SSL certificate for NetScaler gateway from letsencrypt.org on your behalf. This will also be used to notify you when the template has deployed successfully."
+      }
+    },
+    "certificateAuthority": {
+      "type": "string",
+      "defaultValue": "ACME",
+      "allowedValues": [
+        "ACME",
+        "Enterprise"
+      ],
+      "metadata": {
+        "description": "Specifies whether an ACME CA or the internal Enterprise CA should be used for obtaining certificates."
+      }
+    },
+    "acmeServer": {
+      "type": "string",
+      "defaultValue": "https://acme-staging.api.letsencrypt.org/",
+      "allowedValues": [
+        "https://acme-staging.api.letsencrypt.org/",
+        "https://acme-v01.api.letsencrypt.org/"
+      ],
+      "metadata": {
+        "description": "Specifies the ACME protocol server used for public TLS certificate requests. Allowed values correspond to letsencrypt.org staging or production."
+      }
+    },
+    "gatewayFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the FQDN where the user will reach the deployment."
+      }
+    },
+    "deploymentFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the FQDN of the Azure public IP to which the gateway FQDN will be forwarded."
+      }
+    },
+    "themeUri": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the URI of a NetScaler theme which should be installed."
+      }
+    },
+    "html5Mode": {
+      "type": "string",
+      "defaultValue": "Always",
+      "allowedValues": [
+        "Always",
+        "Fallback",
+        "Off"
+      ],
+      "metadata": {
+        "description": "Specifies whether HTML5 Reciever is to be used."
+      }
+    },
+    "appGroups": {
+      "type": "array",
+      "metadata": {
+        "description": "Specifies a list of application groups to be created in StoreFront."
+      }
+    },
+
+    // Delivery controller
+    "deliveryControllerFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the XenApp delivery controller."
+      }
+    },
+    "siteName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the XenApp site."
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Specifies the Location for the deployment."
+      }
+    },
+    // Configuration
+    "artifactsLocationUri": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the shared access signature token which provides access to the base artifacts location."
+      }
+    },
+    "artifactsLocationSasToken": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the base location of the child templates and desired state configuration scripts."
+      }
+    },
+    "dscVersion": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the version of the DSC extension to use."
+      }
+    },
+    "configurationFileUrl": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the URI of the DSC configuration script."
+      }
+    },
+    "configurationFunction": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the function to be executed in the DSC configuration script."
+      }
+    }
+  },
+
+  "variables": {
+    "imagePublisher": "[parameters('publisher')]",
+    "imageOffer": "[parameters('offer')]",
+    "imageSKU": "[parameters('sku')]",
+    "planPublisher": "[parameters('publisher')]",
+    "planProduct": "[parameters('offer')]",
+    "planName": "[parameters('sku')]",
+    "nicName": "[concat(parameters('machineName'),'-nic')]",
+    "nicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]",
+    "machineId": "[resourceId('Microsoft.Compute/virtualMachines',parameters('machineName'))]",
+    "configurationId": "[concat(resourceId('Microsoft.Compute/virtualMachines',parameters('machineName')),'/extensions/configure')]",
+    "osDiskName": "[concat(resourceGroup().name,'-',parameters('machineName'),'-osdisk')]",
+    "osDiskUri": "[concat('http://',parameters('vhdStorageAccount'),'.blob.core.windows.net/vhds/',variables('osDiskName'),'.vhd')]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('nicName')]",
+      "tags": {
+        "displayName": "ControllerNic"
+      },
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[parameters('privateIp')]",
+              "subnet": {
+                "id": "[parameters('subnetId')]"
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[parameters('lbBapId')]"
+                }
+              ],
+              "loadBalancerInboundNatRules": "[parameters('lbInboundRules')]"
+            }
+          }
+        ]
+      }
+    },
+
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[parameters('machineName')]",
+      "tags": {
+        "displayName": "ControllerVM"
+      },
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[variables('nicId')]"
+      ],
+      "properties": {
+        "availabilitySet": {
+          "id": "[parameters('availabilitySetId')]"
+        },
+        "hardwareProfile": {
+          "vmSize": "[parameters('machineSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('machineName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]",
+          "windowsConfiguration": {
+            "provisionVMAgent": true,
+            "enableAutomaticUpdates": true
+          }
+        },
+        "storageProfile": {
+          "osDisk": {
+            "image": {
+              "uri": "[parameters('imageUri')]"
+            },
+            "osType": "Windows",
+            "name": "[variables('osDiskName')]",
+            "vhd": {
+              "uri": "[variables('osDiskUri')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[variables('nicId')]"
+            }
+          ]
+        }
+      },
+
+      "resources": [
+        {
+          "type": "extensions",
+          "name": "configure",
+          "tags": {
+            "displayName": "ControllerConfiguration"
+          },
+          "apiVersion": "2015-06-15",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[variables('machineId')]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.Powershell",
+            "type": "DSC",
+            "typeHandlerVersion": "[parameters('dscVersion')]",
+            "settings": {
+              "modulesUrl": "[parameters('configurationFileUrl')]",
+              "sasToken": "[parameters('artifactsLocationSasToken')]",
+              "configurationFunction": "[parameters('configurationFunction')]",
+              "Properties": {
+                "AdminCreds": {
+                  "UserName": "[parameters('adminUsername')]",
+                  "Password": "PrivateSettingsRef:adminPassword"
+                },
+                "DomainName": "[parameters('domainName')]",
+                "DomainController": "[parameters('domainControllerFQDN')]",
+                "DomainControllerIp": "[parameters('domainControllerPrivateIp')]",
+                "SQLServer": "[parameters('sqlServerFQDN')]",
+                "SQLServerInstance": "[parameters('sqlServerInstance')]",
+                "LicenseServer": "[parameters('licenseServerFQDN')]",
+                "NetScalerIP": "[parameters('netScalerPrivateIp')]",
+                "StoreFront": "[parameters('storeFrontFQDN')]",
+                "VirtualServerName": "[parameters('virtualServerName')]",
+                "VirtualServerPort": "[parameters('virtualServerPort')]",
+                "ForwardServerPort": "[parameters('forwardServerPort')]",
+                "StoreFrontGatewayName": "[parameters('storeFrontGatewayName')]",
+                "EmailAddress": "[parameters('emailAddress')]",
+                "Authority": "[parameters('certificateAuthority')]",
+                "ACMEServer": "[parameters('acmeServer')]",
+                "GatewayFQDN": "[parameters('gatewayFQDN')]",
+                "DeploymentFQDN": "[parameters('deploymentFQDN')]",
+                "ThemeUri": "[parameters('themeUri')]",
+                "HTML5Mode": "[parameters('html5Mode')]",
+                "AppGroups": "[parameters('appGroups')]",               
+                "CertificatePassword": {
+                  "UserName": "CertificatePassword",
+                  "Password": "PrivateSettingsRef:adminPassword"
+                },
+                "DeliveryController": "[parameters('deliveryControllerFQDN')]",
+                "SiteName": "[parameters('siteName')]"
+              }
+            },
+            "protectedSettings": {
+              "Items": {
+                "AdminPassword": "[parameters('adminPassword')]"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "outputs": {
+    "machineId": {
+      "type": "string",
+      "value": "[variables('machineId')]"
+    },
+    "nicName": {
+      "type": "string",
+      "value": "[variables('nicName')]"
+    },
+    "nicId": {
+      "type": "string",
+      "value": "[variables('nicId')]"
+    },
+    "configurationId": {
+      "type": "string",
+      "value": "[variables('configurationId')]"
+    }
+  }
+}

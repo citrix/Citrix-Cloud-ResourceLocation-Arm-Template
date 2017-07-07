@@ -1,0 +1,296 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vhdStorageAccount": {
+      "type": "string",
+      "metadata": {
+        "description": "Storage account to place VHD in."
+      }
+    },
+    "publisher": {
+      "type": "string",
+      "defaultValue": "MicrosoftWindowsServer",
+      "metadata": {
+        "description": "Windows OS version for the VM, allowed values: 2008-R2-SP1, 2012-Datacenter, 2012-R2-Datacenter."
+      }
+    },
+    "offer": {
+      "type": "string",
+      "defaultValue": "Windows-HUB",
+      "metadata": {
+        "description": "Windows OS version for the VM, allowed values: 2008-R2-SP1, 2012-Datacenter, 2012-R2-Datacenter."
+      }
+    },
+    "sku": {
+      "type": "string",
+      "defaultValue": "Windows-10-HUB",
+      "metadata": {
+        "description": "Windows OS version for the VM, allowed values: 2008-R2-SP1, 2012-Datacenter, 2012-R2-Datacenter."
+      }
+    },
+    "machineSize": {
+      "type": "string",
+      "defaultValue": "Standard_A2",
+      "metadata": {
+        "description": "The size of the virtual machines"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourcegroup().location]",
+      "metadata": {
+        "description": "Specifies the Location for the deployment."
+      }
+    },
+    "machineName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the machine to which will be created."
+      }
+    },
+    "availabilitySetId": {
+      "type": "string",
+      "metadata": {
+        "description": "Availability set this machine belongs to"
+      }
+    },
+    "subnetId": {
+      "type": "string",
+      "metadata": {
+        "description": "Id of the subnet the machine shall connect to."
+      }
+    },
+	"privateIp": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the private IP on the subnet the machine should connect to."
+      }
+    },
+    "dnsServers": {
+      "type": "array",
+      "metadata": {
+        "description": "Specifies a list of DNS servers the machine should use."
+      }
+    },
+    "lbBapId": {
+      "type": "string",
+      "metadata": {
+        "description": "Load balancer address pool."
+      }
+    },
+    "lbInboundRules": {
+      "type": "array",
+      "metadata": {
+        "description": "Inbound rule for this VM."
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the administrator of the new VM and the domain. Exclusion list: 'admin','administrator"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The password for the administrator account of the new VM and the domain"
+      }
+    },
+    "artifactsLocationUri": {
+      "type": "string",
+      "metadata": {
+        "description": "Location of scripts and other related assets"
+      }
+    },
+    "artifactsLocationSasToken": {
+      "type": "string",
+      "metadata": {
+        "description": "Token allowing for access of asset location"
+      }
+    },
+	"configurationFileUrl": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the URI of the DSC configuration script."
+      }
+    },
+    "configurationFunction": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the function to be executed in the DSC configuration script."
+      }
+    },
+    "dscVersion": {
+      "type": "string",
+      "metadata": {
+        "description": "Version of DSC Virtual Machine Extension to use."
+      }
+    },    
+	"domainName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the Active Directory domain."
+      }
+    },
+	"domainControllerIp": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the IP of a domain controller on the virtual network."
+      }
+    },
+    "domainControllerFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the FQDN of a domain controller on the virtual network."
+      }
+    },
+	"deliveryControllerFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the XenApp delivery controller on the virtual network."
+      }
+    },    
+	 "deploymentFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the FQDN of the Azure public IP to which the gateway FQDN will be forwarded."
+      }
+    },
+    "gatewayFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the FQDN where the user will reach the deployment."
+      }
+    },
+    "azureGov": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the shared access signature token which provides access to the base artifacts location."
+      },
+      "defaultValue": "true",
+      "allowedValues": [
+        "true",
+        "false"
+      ]
+    }
+  },
+  "variables": {
+    "nicName": "[concat(parameters('machineName'),'-Nic')]",
+    "nicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]",
+    "machineId": "[resourceId('Microsoft.Compute/virtualMachines',parameters('machineName'))]",
+    "osDiskName": "[concat(resourceGroup().name,'-',parameters('machineName'),'-osdisk')]",
+    "osDisk": {
+      "true": {
+        "osDiskUri": "[concat('http://',parameters('vhdStorageAccount'),'.blob.core.usgovcloudapi.net/vhds/',variables('osDiskName'),'.vhd')]"
+      },
+      "false": {
+        "osDiskUri": "[concat('http://',parameters('vhdStorageAccount'),'.blob.core.windows.net/vhds/',variables('osDiskName'),'.vhd')]"
+      }
+    },
+    "currentOsDisk": "[variables('osDisk')[parameters('azureGov')]]",
+    "osDiskUri": "[variables('currentOsDisk').osDiskUri]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2016-09-01",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('nicName')]",
+      "tags": {
+        "displayName": "VDINic"
+      },
+      "location": "[parameters('location')]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig",
+            "properties": {
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[parameters('privateIp')]",
+              "subnet": {
+                "id": "[parameters('subnetId')]"
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[parameters('lbBapId')]"
+                }
+              ],
+              "loadBalancerInboundNatRules": "[parameters('lbInboundRules')]"
+            }
+          }
+        ]
+      }
+    },
+
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[parameters('machineName')]",
+      "tags": {
+        "displayName": "VDI"
+      },
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[variables('nicId')]"
+      ],
+      "properties": {
+        "availabilitySet": {
+          "id": "[parameters('availabilitySetId')]"
+        },
+        "hardwareProfile": {
+          "vmSize": "[parameters('machineSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('machineName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]",
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[parameters('publisher')]",
+            "offer": "[parameters('offer')]",
+            "sku": "[parameters('sku')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "[variables('osDiskName')]",
+            "vhd": {
+              "uri": "[variables('osDiskUri')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[variables('nicId')]"
+            }
+          ]
+        }		
+      }
+    }
+  ],
+  "outputs": {  
+    "machineId": {
+      "type": "string",
+      "value": "[variables('machineId')]"
+    },
+    "nicId": {
+      "type": "string",
+      "value": "[variables('nicId')]"
+    },
+	"machineName":{
+      "type": "string",
+      "value": "[variables('machineName')]"
+	},
+	"osDisk":{
+	  "type": "string",
+      "value": "[variables('osDiskName')]"
+	},
+	"vhd":{
+	  "type": "string",
+      "value": "[variables('osDiskUri')]"	
+	}
+  }
+}

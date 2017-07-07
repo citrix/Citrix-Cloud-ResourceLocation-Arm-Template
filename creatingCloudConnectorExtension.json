@@ -1,0 +1,80 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "customerId": {
+	  "type": "string",
+      "metadata": {
+        "description": "This is the customer ID available in the Citrix Cloud console on the API Access page (within Identity and Access Management)."
+      }
+	},
+	"clientId": {
+	  "type": "string",
+      "metadata": {
+        "description": "Found on the API Access page. This is the secure client ID an administrator can create."
+      }
+	},
+	"ClientSecret": {
+	  "type": "string",
+      "metadata": {
+        "description": "Found on the API Access page. This is the secure client secret available via download after a secure client is created."
+      }
+	},
+	"ResourceLocationId": {
+	  "type": "string",
+      "metadata": {
+        "description": "This ID can be retrieved on the Resource Locations page using the ID button."
+      }
+	}	
+  },
+  "variables": {
+
+  },
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "CloudConnectorConfiguration",
+            "tags": {
+                "displayName": "ControllerConfiguration"
+            },
+            "apiVersion": "2015-06-15",
+            "location": "[parameters('location')]",
+            "properties": {
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.19",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "modulesUrl": "[parameters('configurationFileUrl')]",
+                    "sasToken": "[parameters('artifactsLocationSasToken')]",
+                    "configurationFunction": "[parameters('configurationFunction')]",
+                    "Properties": {
+                        "AdminCreds": {
+                            "UserName": "[parameters('adminUsername')]",
+                            "Password": "PrivateSettingsRef:adminPassword"
+                        },
+                        "CustomerId": "[parameters('CustomerId')]",
+                        "ClientId": "[parameters('ClientId')]",
+                        "ClientSecret": "[parameters('ClientSecret')]",
+                        "customerResourceLocationsId": "[parameters('customerResourceLocationsId')]",
+                    }
+                },
+                "protectedSettings": {
+                    "Items": {
+                        "AdminPassword": "[parameters('adminPassword')]"
+                    }
+                }
+            }
+        }
+    ],
+  "outputs": {
+    "machineId": {
+      "type": "string",
+      "value": "[variables('machineId')]"
+    },
+    "nicId": {
+      "type": "string",
+      "value": "[variables('nicId')]"
+    }
+  }
+}

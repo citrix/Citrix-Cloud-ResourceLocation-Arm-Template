@@ -1,0 +1,45 @@
+{
+  "schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminPassword": {
+      "value": null
+    },
+    "adminUsername": {
+      "value": null
+    },
+    "availabilitySetId": {
+      "value": null
+    },
+    "lbBapId": {
+      "value": null
+    },
+    "lbInboundRules": {
+      "value": null
+    },
+    "machineName": {
+      "value": null
+    },
+    "machineSize": {
+      "value": "Standard_A2"
+    },
+    "offer": {
+      "value": null
+    },
+    "privateIp": {
+      "value": null
+    },
+    "publisher": {
+      "value": null
+    },
+    "sku": {
+      "value": null
+    },
+    "subnetId": {
+      "value": null
+    },
+    "vhdStorageAccount": {
+      "value": null
+    }
+  }
+}

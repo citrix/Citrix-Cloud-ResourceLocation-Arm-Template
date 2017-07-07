@@ -1,0 +1,386 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vhdStorageAccount": {
+      "type": "string",
+      "metadata": {
+        "description": "Storage account to place VHD in."
+      }
+    },
+    "publisher": {
+      "type": "string",
+      "defaultValue": "MicrosoftWindowsServer",
+      "metadata": {
+        "description": "Windows OS version for the VM, allowed values: 2008-R2-SP1, 2012-Datacenter, 2012-R2-Datacenter."
+      }
+    },
+    "offer": {
+      "type": "string",
+      "defaultValue": "WindowsServer",
+      "metadata": {
+        "description": "Windows OS version for the VM, allowed values: 2008-R2-SP1, 2012-Datacenter, 2012-R2-Datacenter."
+      }
+    },
+    "sku": {
+      "type": "string",
+      "defaultValue": "2012-R2-Datacenter",
+      "allowedValues": [
+        "2008-R2-SP1",
+        "2012-Datacenter",
+        "2012-R2-Datacenter"
+      ],
+      "metadata": {
+        "description": "Windows OS version for the VM, allowed values: 2008-R2-SP1, 2012-Datacenter, 2012-R2-Datacenter."
+      }
+    },
+    "machineSize": {
+      "type": "string",
+      "defaultValue": "Standard_A2",
+      "metadata": {
+        "description": "The size of the virtual machines"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourcegroup().location]",
+      "metadata": {
+        "description": "Specifies the Location for the deployment."
+      }
+    },
+    "machineName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the machine to which will be created."
+      }
+    },
+    "availabilitySetId": {
+      "type": "string",
+      "metadata": {
+        "description": "Availability set this machine belongs to"
+      }
+    },
+    "subnetId": {
+      "type": "string",
+      "metadata": {
+        "description": "Id of the subnet the machine shall connect to."
+      }
+    },
+    "dnsServers": {
+      "type": "array",
+      "metadata": {
+        "description": "Specifies a list of DNS servers the machine should use."
+      }
+    },
+    "lbBapId": {
+      "type": "string",
+      "metadata": {
+        "description": "Load balancer address pool."
+      }
+    },
+    "lbInboundRules": {
+      "type": "array",
+      "metadata": {
+        "description": "Inbound rule for this VM."
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the administrator of the new VM and the domain. Exclusion list: 'admin','administrator"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The password for the administrator account of the new VM and the domain"
+      }
+    },
+    "shortcuts": {
+      "type": "array",
+      "metadata": {
+        "description": "The password for the administrator account of the new VM and the domain"
+      }
+    },
+    "artifactsLocationUri": {
+      "type": "string",
+      "metadata": {
+        "description": "Location of scripts and other related assets"
+      }
+    },
+    "artifactsLocationSasToken": {
+      "type": "string",
+      "metadata": {
+        "description": "Token allowing for access of asset location"
+      }
+    },
+    "dscVersion": {
+      "type": "string",
+      "metadata": {
+        "description": "Version of DSC Virtual Machine Extension to use."
+      }
+    },
+    "configurationFileUrl": {
+      "type": "string",
+      "metadata": {
+        "description": "URI of DSC to use for configuration."
+      }
+    },
+    "configurationFunction": {
+      "type": "string",
+      "metadata": {
+        "description": "Function to call in DSC"
+      }
+    },
+	"domainName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the Active Directory domain."
+      }
+    },
+	"domainControllerIp": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the IP of a domain controller on the virtual network."
+      }
+    },
+    "domainControllerFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the FQDN of a domain controller on the virtual network."
+      }
+    },
+	"deliveryControllerFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the XenApp delivery controller on the virtual network."
+      }
+    },
+	 "deploymentFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the FQDN of the Azure public IP to which the gateway FQDN will be forwarded."
+      }
+    },
+    "gatewayFQDN": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the FQDN where the user will reach the deployment."
+      }
+    },
+    "customerId": {
+	  "type": "string",
+      "metadata": {
+        "description": "This is the customer ID available in the Citrix Cloud console on the API Access page (within Identity and Access Management)."
+      }
+	},
+	"clientId": {
+	  "type": "string",
+      "metadata": {
+        "description": "Found on the API Access page. This is the secure client ID an administrator can create."
+      }
+	},
+	"ClientSecret": {
+	  "type": "string",
+      "metadata": {
+        "description": "Found on the API Access page. This is the secure client secret available via download after a secure client is created."
+      }
+	},
+	"ResourceLocationId": {
+	  "type": "string",
+      "metadata": {
+        "description": "This ID can be retrieved on the Resource Locations page using the ID button."
+      }
+	},
+    "azureGov": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the shared access signature token which provides access to the base artifacts location."
+      },
+      "defaultValue": "true",
+      "allowedValues": [
+        "true",
+        "false"
+      ]
+    },
+	"IsTestControlePlane": {
+      "type": "string",
+      "metadata": {
+        "description": "Specify if the DDC used to provision is in test Control Plane or Production Control Plane"
+      },
+      "defaultValue": "false",
+      "allowedValues": [
+        "true",
+        "false"
+      ]
+    },
+	"CreateMasterImage": {
+      "type": "string",
+      "metadata": {
+        "description": "Specify wether VDI should be provisioned or Not."
+      },
+      "defaultValue": "false",
+      "allowedValues": [
+        "true",
+        "false"
+      ]
+    }
+  },
+  "variables": {
+    "nicName": "[concat(parameters('machineName'),'-Nic')]",
+    "nicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]",
+    "machineId": "[resourceId('Microsoft.Compute/virtualMachines',parameters('machineName'))]",
+    "osDiskName": "[concat(resourceGroup().name,'-',parameters('machineName'),'-osdisk')]",
+    "osDisk": {
+      "true": {
+        "osDiskUri": "[concat('http://',parameters('vhdStorageAccount'),'.blob.core.usgovcloudapi.net/vhds/',variables('osDiskName'),'.vhd')]"
+      },
+      "false": {
+        "osDiskUri": "[concat('http://',parameters('vhdStorageAccount'),'.blob.core.windows.net/vhds/',variables('osDiskName'),'.vhd')]"
+      }
+    },
+    "currentOsDisk": "[variables('osDisk')[parameters('azureGov')]]",
+    "osDiskUri": "[variables('currentOsDisk').osDiskUri]"
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('nicName')]",
+      "tags": {
+        "displayName": "JumpBoxNic"
+      },
+      "location": "[parameters('location')]",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[parameters('subnetId')]"
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[parameters('lbBapId')]"
+                }
+              ],
+              "loadBalancerInboundNatRules": "[parameters('lbInboundRules')]"
+            }
+          }
+        ]
+      }
+    },
+
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[parameters('machineName')]",
+      "tags": {
+        "displayName": "JumpBoxVM"
+      },
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[variables('nicId')]"
+      ],
+      "properties": {
+        "availabilitySet": {
+          "id": "[parameters('availabilitySetId')]"
+        },
+        "hardwareProfile": {
+          "vmSize": "[parameters('machineSize')]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('machineName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]",
+          "windowsConfiguration": {
+            "provisionVMAgent": true,
+            "enableAutomaticUpdates": true
+          }
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[parameters('publisher')]",
+            "offer": "[parameters('offer')]",
+            "sku": "[parameters('sku')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "[variables('osDiskName')]",
+            "vhd": {
+              "uri": "[variables('osDiskUri')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[variables('nicId')]"
+            }
+          ]
+        }
+      },
+      "resources": [
+        {
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(parameters('machineName'),'/configureController')]",
+          "tags": {
+            "displayName": "JumpBoxConfiguration"
+          },
+          "apiVersion": "2015-06-15",
+          "location": "[parameters('location')]",
+          "dependsOn": [
+            "[variables('machineId')]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.Powershell",
+            "type": "DSC",
+            "typeHandlerVersion": "2.19",
+             "settings": {
+              "sasToken": "[parameters('artifactsLocationSasToken')]",
+              "modulesUrl": "[parameters('configurationFileUrl')]",
+              "configurationFunction": "[parameters('configurationFunction')]",
+              "Properties": {
+                "Shortcuts": "[parameters('shortcuts')]",
+				"DomainName": "[parameters('domainName')]",
+                "Admincreds": {
+                  "UserName": "[parameters('adminUsername')]",
+                  "Password": "PrivateSettingsRef:adminPassword"
+                },
+			    "DomainController": "[parameters('domainControllerFQDN')]",
+			    "DomainControllerIp": "[parameters('domainControllerIp')]",
+			    "DeliveryController": "[parameters('deliveryControllerFQDN')]",
+			    "DeploymentFQDN": "[parameters('deploymentFQDN')]",
+			    "GatewayFQDN": "[parameters('gatewayFQDN')]",			    			    
+			    "CustomerId": "[parameters('customerId')]",
+			    "clientId": "[parameters('clientId')]",
+			    "ClientSecret": "[parameters('ClientSecret')]",
+			    "ResourceLocationId": "[parameters('ResourceLocationId')]",
+				"IsTestControlePlane": "[parameters('IsTestControlePlane')]",
+				"CreateMasterImage" : "[parameters('CreateMasterImage')]"
+              }
+            },
+			"protectedSettings": {
+				"Items": {
+					"adminPassword": "[parameters('adminPassword')]"
+				}
+			}
+          }
+        }
+      ]
+    }
+  ],
+  "outputs": {
+    "machineId": {
+      "type": "string",
+      "value": "[variables('machineId')]"
+    },
+    "nicId": {
+      "type": "string",
+      "value": "[variables('nicId')]"
+    }
+  }
+}

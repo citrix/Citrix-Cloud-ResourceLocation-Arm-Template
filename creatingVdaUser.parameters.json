@@ -1,0 +1,142 @@
+{
+  "schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminPassword": {
+      "value": null
+    },
+    "adminUsername": {
+      "value": null
+    },
+    "artifactsLocationSasToken": {
+      "value": null
+    },
+    "artifactsLocationUri": {
+      "value": null
+    },
+    "availabilitySetId": {
+      "value": null
+    },
+    "configurationFileUrl": {
+      "value": null
+    },
+    "configurationFunction": {
+      "value": null
+    },
+    "deliveryControllerFQDN": {
+      "value": null
+    },
+    "deploymentFQDN": {
+      "value": null
+    },
+    "domainName": {
+      "value": null
+    },
+    "dscVersion": {
+      "value": null
+    },
+    "gatewayFQDN": {
+      "value": null
+    },
+    "imageUri": {
+      "value": null
+    },
+    "lbBapId": {
+      "value": null
+    },
+    "lbInboundRules": {
+      "value": null
+    },
+    "machineName": {
+      "value": null
+    },
+    "machineSize": {
+      "value": "Standard_A2"
+    },
+    "offer": {
+      "value": null
+    },
+    "packages": {
+      "value": [
+        "putty.install"
+      ]
+    },
+    "publishedApplications": {
+      "value":"applications": [
+        {
+          "name": "Domain Controller",
+          "category": "Remote Desktop Connections",
+          "path": "[variables('paths').rdpPath]",
+          "icon": "[variables('paths').rdpPath]",
+          "arguments": "[concat('/v:', variables('domainControllerSettings').machineName)]"
+        },
+      {
+        "name": "XenApp Controller",
+        "category": "Remote Desktop Connections",
+        "path": "[variables('paths').rdpPath]",
+        "icon": "[variables('paths').rdpPath]",
+        "type": "Shortcut",
+        "arguments": "[concat('/v:', variables('deliveryControllerSettings').machineName)]"
+      },
+      {
+        "name": "XenApp VDA",
+        "category": "Remote Desktop Connections",
+        "path": "[variables('paths').rdpPath]",
+        "icon": "[variables('paths').rdpPath]",
+        "arguments": "[concat('/v:', 'XA-VDA-0')]"
+      },
+      {
+        "name": "XenApp Server VDI",
+        "category": "Remote Desktop Connections",
+        "path": "[variables('paths').rdpPath]",
+        "icon": "[variables('paths').rdpPath]",
+        "arguments": "[concat('/v:', 'XA-VDI-0')]"
+      },
+      {
+        "name": "NetScaler Web UI",
+        "category": "NetScaler Management",
+        "path": "[variables('paths').iePath]",
+        "icon": "[variables('paths').iePath]",
+        "arguments": "[variables('paths').netScalerUrl]"
+      },
+      {
+        "name": "Putty SSH",
+        "category": "NetScaler Management",
+        "path": "[variables('paths').puttyPath]",
+        "icon": "[variables('paths').puttyPath]",
+        "arguments": "[concat(parameters('adminUsername'),'@', variables('netScalerSettings').privateIp)]"
+      },
+      {
+        "name": "Citrix Director",
+        "category": "Administrative Apps",
+        "path": "[variables('paths').iePath]",
+        "icon": "[variables('paths').studioPath]",
+        "arguments": "[variables('paths').directorUrl]"
+      },
+      {
+        "name": "Citrix Studio",
+        "category": "Administrative Apps",
+        "path": "[variables('paths').studioPath]",
+        "icon": "[variables('paths').studioPath]",
+        "type": "Shortcut",
+        "arguments": ""
+      }
+    ]
+    },
+    "publisher": {
+      "value": null
+    },
+    "sku": {
+      "value": null
+    },
+    "storeFrontUrl": {
+      "value": null
+    },
+    "subnetId": {
+      "value": null
+    },
+    "vhdStorageAccount": {
+      "value": null
+    }
+  }
+}

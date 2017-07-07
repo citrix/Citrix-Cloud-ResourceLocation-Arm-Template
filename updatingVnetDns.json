@@ -1,0 +1,72 @@
+﻿{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the virtual network whose DNS settings are to be updated."
+      }
+    },
+    "vnetAddressRange": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the address range of the entire virtual network."
+      }
+    },
+    "subnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the subnet within the virtual network."
+      }
+    },
+    "subnetAddressRange": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the address range of the subnet within the virtual network."
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourcegroup().location]",
+      "metadata": {
+        "description": "Specifies the Location for the deployment."
+      }
+    },
+    "dnsServers": {
+      "type": "array",
+      "metadata": {
+        "description": "Specifies the DNS servers the virtual network should use for its DNS settings."
+      }
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-06-15",
+      "name": "virtualNetwork",
+      "type": "Microsoft.Network/virtualNetworks",
+      "tags": {
+        "displayName": "VirtualNetwork"
+      },
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('vnetAddressRange')]"
+          ]
+        },
+        "dhcpOptions": {
+          "dnsServers": "[parameters('dnsServers')]"
+        },
+        "subnets": [
+          {
+            "name": "[parameters('subnetName')]",
+            "properties": {
+              "addressPrefix": "[parameters('subnetAddressRange')]"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
