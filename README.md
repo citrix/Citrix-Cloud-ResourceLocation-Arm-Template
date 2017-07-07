@@ -1,14 +1,18 @@
 # Citrix Cloud Xendesktop Resource Location Creation Arm Template
 
-This template demonstrates the creation of a self-contained XenDesktop environment in Azure, creating the following resources:
+This template demonstrates creation of a self-contained Resource Location , consisting of  following resources:
 
 * Domain Controller
 * Citrix NetScaler VPX 11.0
 * Citrix Virtual Desktop Agents (1 Client Windows 10 VDI)
 * Citrix CloudConnector
 * RDP JumpBox
+* Loadbalancer
+* VNET
+* Storage Account
+* Avaliablity Set
 
-After deployment, fallowing components are fully configured with Citrix Cloud customer XenDesktop instance:
+After deployment, fallowing components are fully configured with Citrix Cloud customer XenDesktop based on Citrix Cloud Information passed in as parameter to Azure Resource Manager Template :
 
 1. A new user-specified Active Directory domain is created and the machines are automatically joined to it.
 2. A Citrix CloudConnector VM is created and Joined to specified Customer Account from https://citrix.cloud.com.
