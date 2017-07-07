@@ -29,7 +29,7 @@ In order for template to Work, these are the fallowing Requirements.
 		c. Enter a name for Secure Client and click Create Client.
 		d. Once Secure Client is created, download Secure Client Credentials file.
 		e. Note down :
-			id		=>	Passed as parameter for customerId.
+			id	=>	Passed as parameter for customerId.
 			Secret	=>	Passed as parameter for clientSecret.
 	5. Login to https://www.Citrix.com
 		Download latest RTM version of Standalone Client VDI Installer.
@@ -38,7 +38,7 @@ In order for template to Work, these are the fallowing Requirements.
 
 Click the button below to deploy
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fkkuenterprisestorage.blob.core.windows.net%2Fcctest18-stageartifacts%2FmainTemplate.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fkkuenterprisestorage.blob.core.windows.net%2Fgithubtemplate-stageartifacts%2FmainTemplate.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
