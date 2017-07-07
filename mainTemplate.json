@@ -317,7 +317,8 @@
       ]
     },
 
-    "ClientVDIInstallerUri": {      
+    "ClientVDIInstallerUri": {  
+	"defaultValue": "",    
       "type": "string",
       "metadata": {
         "description": "If customClientVDI is selected, Enter the path of VDI Installer or else leave it blank."
@@ -337,6 +338,7 @@
     },
 
     "SharedHostedVDIInstallerUri": {
+	  "defaultValue": "",
       "type": "string",
       "metadata": {
         "description": "If customServerVDI is selected, Enter the path of VDI Installer or else leave it blank."
