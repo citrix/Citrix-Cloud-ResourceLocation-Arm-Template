@@ -61,8 +61,6 @@ Template parameters:
 | adminUsername | Specifies the name of the administrator for machines, Active Directory domain, NetScaler and XenApp. Exclusion list: 'admin','administrator'. Must be no more than 9 alphanumeric characters. | 
 | adminPassword | Specifies the password of the administrator for machines, Active Directory domain, NetScaler and XenApp. | 
 | domainName | Specifies the name of the newly created Active Directory domain. | 
-| siteName | Specifies the name of the XenDesktop Site Name. | 
-| html5Mode | Specifies whether HTML5 Reciever is to be used. | 
 | emailAddress | Specifies the email address that that will be used to request a public SSL certificate for NetScaler gateway from letsencrypt.org on your behalf. This will also be used to notify you when the template has deployed successfully. | 
 | acmeServer | Specifies the ACME protocol server used for public TLS certificate requests. Allowed values correspond to letsencrypt.org staging or production. | 
 | customInboundRules | Specifies additional inbound NAT rules to apply in this deployment. Useful for exposing individual machines more directly. The parameter is specified as an object, as in the default. See variable 'loadBalancerSettings' for an example format. | 
