@@ -26,9 +26,9 @@ Here are the pre-requisites before you invoke the template:
 		b. Click "API Access".		 		
 		c. Enter a name for Secure Client and click Create Client.
 		d. Once Secure Client is created, download Secure Client Credentials file. 		
-		e. Note down : 			
-                id	=>	Passed as parameter for customerId. 			
-               Secret	=>	Passed as parameter for clientSecret.		
+		e. Note down :		
+                	id	=>	Passed as parameter for customerId. 			
+               		Secret	=>	Passed as parameter for clientSecret.		
 5. Login to https://www.Citrix.com 
 	Download latest RTM version of Desktop OS Virtual Delivery Agent for Windows 10 VDA		 		
 	Download latest RTM version of Server OS Virtual Delivery Agent for Windows Server VDA	 		
