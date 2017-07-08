@@ -3,7 +3,7 @@
 This template creates a fully self-contained Resource Location for XenApp and XenDesktop service in Citrix Cloud, consisting of the following resources:
 
 * Windows Domain Controller
-* Citrix NetScaler VPX 11.0
+* Citrix NetScaler VPX 11.1
 * Citrix Virtual Delivery Agent (VDAs)
 	* Windows 10 HUB [CBB]
 	* Windows Server 2016
@@ -20,7 +20,7 @@ This template creates a fully self-contained Resource Location for XenApp and Xe
 Here are the pre-requisites before you invoke the template:
 
 *  At least 20 Cores should be available within your Azure subscription.
-*  For subscription used to deploy this Azure ARM Template, Want to deploy programmatically? option must be enabled for ["Citrix NetScaler 11.0 VPX Bring Your Own License"](https://portal.azure.com/#create/citrix.netscalervpx110-6531netscalerbyol)  offer within Azure Marketplace.
+*  For subscription used to deploy this Azure ARM Template, Want to deploy programmatically? option must be enabled for ["Citrix NetScaler 11.1 VPX Bring Your Own License"](https://portal.azure.com/#create/citrix.netscalervpx111netscalerbyol)  offer within Azure Marketplace.
 *  If you want to deploy Windows 10 HUB image, make sure your Azure subscription is part of Azure Enterprise Agreement.	
 *  Login to https://citrix.cloud.com/  
 		*  Navigate to "Identity and Access Management".  		
