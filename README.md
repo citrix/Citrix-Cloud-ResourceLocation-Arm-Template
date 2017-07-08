@@ -1,32 +1,27 @@
-# Citrix Cloud Xendesktop Resource Location Creation Arm Template
+# Citrix Cloud Xendesktop Resource Location Creation ARM Template
 
-This template demonstrates creation of a self-contained Resource Location , consisting of  following resources:
+This template creates a fully self-contained Resource Location for XenApp and XenDesktop service in Citrix Cloud, consisting of the following resources:
 
-* Domain Controller
+* Windows Domain Controller
 * Citrix NetScaler VPX 11.0
-* Citrix Virtual Desktop Agents (1 Client Windows 10 VDI)
+* Citrix Virtual Delivery Agent (VDAs)
+	* Windows 10 HUB [CBB]
+	* Windows Server 2016
 * Citrix CloudConnector
 * RDP JumpBox
-* Loadbalancer
-* VNET
-* Storage Account
-* Avaliablity Set
+* Azure Loadbalancer
+* Azure VNET
+* Azure Storage Account
+* Azure Availability Set
 
-After deployment, fallowing components are fully configured with Citrix Cloud customer XenDesktop based on Citrix Cloud Information passed in as parameter to Azure Resource Manager Template :
-
-1. A new user-specified Active Directory domain is created and the machines are automatically joined to it.
-2. A Citrix CloudConnector VM is created and Joined to specified Customer Account from https://citrix.cloud.com.
-3. VDAs are provisioned and joined to Citrix XenDesktop Infrastructure running in Citrix Cloud.
-5. A certificate is obtained for the deployment from the letsencrypt certificate authority.
-6. NetScaler VPX is configured as a gateway to the deployment.
 
 # Pre-Requisites
 
-In order for template to Work, these are the fallowing Requirements.
+Here are the pre-requisites before you invoke the template:
 
-	1. Make sure there are at least 10 Core available for DS_V2.
-	2. Enable Programmatic Deployment for NetScaler VPX 11.0.
-	3. Make sure the subscription is part of Azure Enterprise Agreement.
+	1. At least 20 Cores should be available within your Azure subscription.
+	2. For that subscription, “Want to deploy programmatically?” option must be enabled for Citrix NetScaler VPX 11.0 offer within Azure Marketplace.
+	3. If you want to deploy Windows 10 HUB image, make sure your Azure subscription is part of Azure Enterprise Agreement.
 	4. Navigate to https://citrix.cloud.com/
 		a. Navigate to "Identity and Access Management".
 		b. Click "API Access".
@@ -36,7 +31,8 @@ In order for template to Work, these are the fallowing Requirements.
 			id	=>	Passed as parameter for customerId.
 			Secret	=>	Passed as parameter for clientSecret.
 	5. Login to https://www.Citrix.com
-		Download latest RTM version of Standalone Client VDI Installer.
+		Download latest RTM version of Server OS Virtual Delivery Agent for Windows 10 VDA
+		Download latest RTM version of Desktop OS Virtual Delivery Agent for Windows Server VDA
 		Upload it to a share that can be accessed by Azure Resource Manager Template.
 
 
@@ -48,6 +44,8 @@ Click the button below to deploy
 
 
 Template parameters:
+
+Template Parameters ( refer to parameters.json to see sample parameter.)
 
 | Name   | Description    |
 |:--- |:---|
