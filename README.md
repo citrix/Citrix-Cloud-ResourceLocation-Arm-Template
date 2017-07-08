@@ -16,8 +16,9 @@ This template creates a fully self-contained Resource Location for XenApp and Xe
 
 
 # Pre-Requisites
-
-Here are the pre-requisites before you invoke the template:</br>
+</p>
+Here are the pre-requisites before you invoke the template:
+</p>
 	1. At least 20 Cores should be available within your Azure subscription.</br>
 	2. For subscription used to deploy this Azure ARM Template, [Want to deploy programmatically?](https://portal.azure.com/#create/citrix.netscalervpx110-6531netscalerbyol) "Citrix NetScaler 11.0 VPX Bring Your Own License" option must be enabled for "Citrix NetScaler 11.0 VPX Bring Your Own License" offer within Azure Marketplace.</br>
 	3. If you want to deploy Windows 10 HUB image, make sure your Azure subscription is part of Azure Enterprise Agreement.</br>
@@ -29,12 +30,13 @@ Here are the pre-requisites before you invoke the template:</br>
 		e. Note down :</br>
 			id	=>	Passed as parameter for customerId.</br>
 			Secret	=>	Passed as parameter for clientSecret.</br>
+</p>			
 	5. Login to https://www.Citrix.com</br>
 		Download latest RTM version of Server OS Virtual Delivery Agent for Windows 10 VDA</br>
 		Download latest RTM version of Desktop OS Virtual Delivery Agent for Windows Server VDA</br>
 		Upload it to a share that can be accessed by Azure Resource Manager Template.</br>
 
-
+</p>
 # Click the button below to deploy
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcitrix%2FCitrix-Cloud-ResourceLocation-Arm-Template%2Fmaster%2FmainTemplate.json" target="_blank">
