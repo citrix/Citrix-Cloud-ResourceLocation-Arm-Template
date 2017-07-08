@@ -16,6 +16,7 @@ This template creates a fully self-contained Resource Location for XenApp and Xe
 
 
 # Pre-Requisites
+
 Here are the pre-requisites before you invoke the template:
 
 1. At least 20 Cores should be available within your Azure subscription.
