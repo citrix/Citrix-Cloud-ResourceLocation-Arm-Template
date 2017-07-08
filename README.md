@@ -29,7 +29,10 @@ Here are the pre-requisites before you invoke the template:
 		e. Note down : 			
                 id	=>	Passed as parameter for customerId. 			
                Secret	=>	Passed as parameter for clientSecret.		
-5. Login to https://www.Citrix.com 		Download latest RTM version of Server OS Virtual Delivery Agent for Windows 10 VDA		 		Download latest RTM version of Desktop OS Virtual Delivery Agent for Windows Server VDA	 		Upload it to a share that can be accessed by Azure Resource Manager Template.
+5. Login to https://www.Citrix.com 
+	Download latest RTM version of Desktop OS Virtual Delivery Agent for Windows 10 VDA		 		
+	Download latest RTM version of Server OS Virtual Delivery Agent for Windows Server VDA	 		
+	Upload it to a share that can be accessed by Azure Resource Manager Template.
 
 # Click the button below to deploy
 
@@ -75,6 +78,6 @@ Here are the pre-requisites before you invoke the template:
 | CustomCloudConnectorScriptUri | If you want to run any custom configuration on cloudConnector, specify the URL for the powershellScript. else leave it empty. |
 | CustomCloudConnectorScriptArgs | Arguments for Script, else leave it blank.|
 | CreateClientVDI | Creates a Windows 10 Hub Image, if your subscription is not part of Azure Enterprise Agreement, set it to false.|
-| ClientVDIInstallerUri | Url for the Standalone Client VDI Installer, which can be download from https://www.citrix.com website. |
-| CreateSharedHostedVDI | If True, creates a Windows Server 2016 Shared Hosted VDI. |
-| SharedHostedVDIInstallerUri | The Standalone Installer for the Xendesktop VDI, which can be downloaded from https://www.citrix.com.|
+| ClientVDIInstallerUri | Url for the Standalone Desktop OS Virtual Delivery Agent Installer, which can be download from https://www.citrix.com website. |
+| CreateServerVDA | If True, creates a Windows Server 2016 Server VDA. |
+| ServerVDAInstallerUrl | The Standalone Server OS Virtual Delivery Agent Installer, which can be downloaded from https://www.citrix.com.|
