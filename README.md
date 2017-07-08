@@ -18,9 +18,9 @@ This template creates a fully self-contained Resource Location for XenApp and Xe
 # Pre-Requisites
 
 Here are the pre-requisites before you invoke the template:
-
+[**Visit the website.**](http://markdown-here.com)
 	1. At least 20 Cores should be available within your Azure subscription.
-	2. For that subscription, [Want to deploy programmatically?] (https://portal.azure.com/#create/citrix.netscalervpx110-6531netscalerbyol "Citrix NetScaler 11.0 VPX Bring Your Own License") option must be enabled for "Citrix NetScaler 11.0 VPX Bring Your Own License" offer within Azure Marketplace.
+	2. For subscription used to deploy this Azure ARM Template, [Want to deploy programmatically?] (https://portal.azure.com/#create/citrix.netscalervpx110-6531netscalerbyol "Citrix NetScaler 11.0 VPX Bring Your Own License") option must be enabled for "Citrix NetScaler 11.0 VPX Bring Your Own License" offer within Azure Marketplace.
 	3. If you want to deploy Windows 10 HUB image, make sure your Azure subscription is part of Azure Enterprise Agreement.
 	4. Navigate to https://citrix.cloud.com/
 		a. Navigate to "Identity and Access Management".
