@@ -1,0 +1,54 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+  "artifactsBaseUrl" :{
+    "value": "https://raw.githubusercontent.com/citrix/Citrix-Cloud-ResourceLocation-Arm-Template/master"
+    },
+    "adminUsername": {
+      "value": "ctxadmin"
+    },
+    "adminPassword": {
+      "value": "Citrix123456!"
+    },
+    "emailAddress": {
+      "value": "[YOUR_EMAIL@ADDRESS]"
+    },
+    "machineSize": {
+      "value": "Standard_DS2_v2"
+    },
+   "azureGov": {  
+	  "value": "false"
+    },
+    "location": {
+      "value": "westus"
+    },
+	"XAControllerDeployType": {
+	  "value": "CloudConnectorSettings"
+	},
+	"Customer": {
+      "value": "[YOUR_CITRIX_CLOUD_CUSTOMER_ID]"
+    },
+    "clientID": {
+      "value": "[YOUR_CITRIX_CLOUD_CLIENT_ID]"
+    },
+    "clientSecret": {
+      "value": "[YOUR_CITRIX_CLOUD_CLIENT_SECRET]"
+    },
+    "ResourceLocationId": {
+      "value": "[RESOURCE_LOCATION_NAME_UNDER_WHICH_CLOUD_CONNECTOR_WILL_BE_DEPLOYED]"
+    },
+	"CreateMasterImage" : {
+		"value": "false"
+	},	
+	"CreateServerVDA" :{
+			"value": "false"
+	},
+	"CreateClientVDA" :{
+			"value": "true"
+	},
+	"ClientVDAInstallerUrl": {
+		"value": "[URL FOR STANDALONE INSTALLER CLIENT OS VIRTUAL DELIVERY AGENT EXE UPLOADED TO YOUR SHARE]"
+	}
+  }
+}

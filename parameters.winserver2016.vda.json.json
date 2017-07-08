@@ -41,7 +41,13 @@
 	"CreateMasterImage" : {
 		"value": "false"
 	},
-	"CreateSharedHostedVDI" :{
+	"CreateServerVDA" :{
+			"value": "true"
+	},
+	"ServerVDAInstallerUrl": {
+		"value": "[URL FOR STANDALONE INSTALLER SERVER OS VIRTUAL DELIVERY AGENT EXE UPLOADED TO YOUR SHARE]"
+	},
+	"CreateClientVDA" :{
 			"value": "false"
 	}
   }

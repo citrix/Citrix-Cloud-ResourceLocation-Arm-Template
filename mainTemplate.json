@@ -227,7 +227,7 @@
     "XAControllerDeployType": {
       "type": "string",
       "metadata": {
-        "description": "Specifies If Need to Connect to Cloud Connector or Bringup DDC."
+        "description": "Specifies If Need to Connect to Cloud Connector or onpremisis DDC."
       },
       "defaultValue": "CloudConnectorSettings",
       "allowedValues": [
@@ -305,7 +305,7 @@
       }
     },
 
-    "CreateClientVDI": {
+    "CreateClientVDA": {
       "type": "string",
       "metadata": {
         "description": "Select if Default Client VDI should be installed or any custom version of VDI needs to be installed."
@@ -317,7 +317,7 @@
       ]
     },
 
-    "ClientVDIInstallerUri": {  
+    "ClientVDAInstallerUrl": {  
 	"defaultValue": "",    
       "type": "string",
       "metadata": {
@@ -325,7 +325,7 @@
       }
     },
 
-    "CreateSharedHostedVDI": {
+    "CreateServerVDA": {
       "type": "string",
       "metadata": {
         "description": "Select if Default Server VDI should be installed or any custom version of VDI needs to be installed."
@@ -337,7 +337,7 @@
       ]
     },
 
-    "SharedHostedVDIInstallerUri": {
+    "ServerVDAInstallerUrl": {
 	  "defaultValue": "",
       "type": "string",
       "metadata": {
@@ -1473,7 +1473,7 @@
     },
         
 	{
-	  "condition": "[equals(parameters('CreateClientVDI'),'true')]",
+	  "condition": "[equals(parameters('CreateClientVDA'),'true')]",
       "name": "CreatingVDI",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
@@ -1566,6 +1566,7 @@
       }
     },
 	{
+	  "condition": "[equals(parameters('CreateClientVDA'),'true')]",
       "name": "CreatingVdiExtensions",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
@@ -1607,7 +1608,7 @@
             "value": "[parameters('artifactsBaseUrl')]"
           },
 		  "InstallerPath" : {
-		    "value": "[parameters('ClientVDIInstallerUri')]"
+		    "value": "[parameters('ClientVDAInstallerUrl')]"
 		  },
 		  "CreateMasterImage" : {
 		    "value": "[parameters('CreateMasterImage')]"
@@ -1616,7 +1617,7 @@
       }
     },	
 	{
-	  "condition": "[equals(parameters('CreateSharedHostedVDI'),'true')]",
+	  "condition": "[equals(parameters('CreateServerVDA'),'true')]",
       "name": "CreatingVDIServer",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
@@ -1718,7 +1719,7 @@
       }
     },
     {
-      "condition": "[equals(parameters('CreateSharedHostedVDI'),'true')]",
+      "condition": "[equals(parameters('CreateServerVDA'),'true')]",
       "name": "CreatingVdiServerExtensions",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
@@ -1769,7 +1770,7 @@
             "value": "[variables('vdiServerSettings').configurationFunction]"
           },
           "InstallerPath": {
-            "value": "[parameters('SharedHostedVDIInstallerUri')]"
+            "value": "[parameters('ServerVDAInstallerUrl')]"
           },
           "CreateMasterImage": {
             "value": "[parameters('CreateMasterImage')]"
