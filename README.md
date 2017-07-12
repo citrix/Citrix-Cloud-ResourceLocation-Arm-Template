@@ -3,7 +3,7 @@
 This template creates a fully self-contained Resource Location for XenApp and XenDesktop service in Citrix Cloud, consisting of the following resources:
 
 * Windows Domain Controller
-* Citrix NetScaler VPX 11.0
+* Citrix NetScaler VPX 11.1
 * Citrix Virtual Delivery Agent (VDAs)
 	* Windows 10 HUB [CBB]
 	* Windows Server 2016
@@ -16,20 +16,24 @@ This template creates a fully self-contained Resource Location for XenApp and Xe
 
 
 # Pre-Requisites
+
 Here are the pre-requisites before you invoke the template:
 
-1. At least 20 Cores should be available within your Azure subscription.
-2. For subscription used to deploy this Azure ARM Template, Want to deploy programmatically? option must be enabled for ["Citrix NetScaler 11.0 VPX Bring Your Own License"](https://portal.azure.com/#create/citrix.netscalervpx110-6531netscalerbyol)  offer within Azure Marketplace.
-3. If you want to deploy Windows 10 HUB image, make sure your Azure subscription is part of Azure Enterprise Agreement.	
-4. Navigate to https://citrix.cloud.com/	 		
-		a. Navigate to "Identity and Access Management".	 		
-		b. Click "API Access".		 		
-		c. Enter a name for Secure Client and click Create Client.
-		d. Once Secure Client is created, download Secure Client Credentials file. 		
-		e. Note down : 			
-                id	=>	Passed as parameter for customerId. 			
-               Secret	=>	Passed as parameter for clientSecret.		
-5. Login to https://www.Citrix.com 		Download latest RTM version of Server OS Virtual Delivery Agent for Windows 10 VDA		 		Download latest RTM version of Desktop OS Virtual Delivery Agent for Windows Server VDA	 		Upload it to a share that can be accessed by Azure Resource Manager Template.
+*  At least 20 Cores should be available within your Azure subscription.
+*  For subscription used to deploy this Azure ARM Template, Want to deploy programmatically? option must be enabled for ["Citrix NetScaler 11.1 VPX Bring Your Own License"](https://portal.azure.com/#create/citrix.netscalervpx111netscalerbyol)  offer within Azure Marketplace.
+*  If you want to deploy Windows 10 HUB image, make sure your Azure subscription is part of Azure Enterprise Agreement.	
+*  Login to https://citrix.cloud.com/  
+		*  Navigate to "Identity and Access Management".  		
+		*  Click "API Access".		
+		*  Enter a name for Secure Client and click Create Client.
+		*  Once Secure Client is created, download Secure Client Credentials file.
+		*  Note down :
+                	id	=>	Passed as parameter for customerId.
+               		Secret	=>	Passed as parameter for clientSecret.
+* Login to https://www.Citrix.com
+	Download latest RTM version of Desktop OS Virtual Delivery Agent for Windows 10 VDA
+	Download latest RTM version of Server OS Virtual Delivery Agent for Windows Server VDA
+	Upload it to a share that can be accessed by Azure Resource Manager Template.
 
 # Click the button below to deploy
 
@@ -75,6 +79,6 @@ Here are the pre-requisites before you invoke the template:
 | CustomCloudConnectorScriptUri | If you want to run any custom configuration on cloudConnector, specify the URL for the powershellScript. else leave it empty. |
 | CustomCloudConnectorScriptArgs | Arguments for Script, else leave it blank.|
 | CreateClientVDI | Creates a Windows 10 Hub Image, if your subscription is not part of Azure Enterprise Agreement, set it to false.|
-| ClientVDIInstallerUri | Url for the Standalone Client VDI Installer, which can be download from https://www.citrix.com website. |
-| CreateSharedHostedVDI | If True, creates a Windows Server 2016 Shared Hosted VDI. |
-| SharedHostedVDIInstallerUri | The Standalone Installer for the Xendesktop VDI, which can be downloaded from https://www.citrix.com.|
+| ClientVDIInstallerUri | Url for the Standalone Desktop OS Virtual Delivery Agent Installer, which can be download from https://www.citrix.com website. |
+| CreateServerVDA | If True, creates a Windows Server 2016 Server VDA. |
+| ServerVDAInstallerUrl | The Standalone Server OS Virtual Delivery Agent Installer, which can be downloaded from https://www.citrix.com.|
