@@ -60,16 +60,7 @@
         "description": "Specifies an additional qualifier to use for Marketplace image references. The value 'preview' is for images in staging, while the default value references production images."
       }
     },
-
-    // Public IP
-    "publicDnsName": {
-      "type": "string",
-      "defaultValue": "[toLower(substring(concat('xenapp', uniqueString(subscription().subscriptionId,resourceGroup().id)), 0, 13))]",
-      "metadata": {
-        "description": "Specifies a unique public DNS prefix for the deployment. This will produce a FQDN of the form '<publicDnsName>.<location>.cloudapp.azure.com'. Up to 62 chars, digits or dashes, lowercase, should start with a letter: must conform to '^[a-z][a-z0-9-]{1,61}[a-z0-9]$'."
-      }
-    },
-
+   
     "publicIpGroup": {
       "type": "string",
       "defaultValue": "[resourceGroup().name]",
@@ -347,9 +338,9 @@
   },
     
   "variables": {	  
-  
-		"siteName":"XenAppOnAzure",      
-		"html5Mode": "Fallback",    	
+      "publicDnsName" :"[toLower(substring(concat('xenapp', uniqueString(subscription().subscriptionId,resourceGroup().id)), 0, 13))]",
+	  "siteName":"XenAppOnAzure",      
+	  "html5Mode": "Fallback",    	
 	  "vhdStorageAccount":"[toLower(substring(concat('xenapp',uniqueString(subscription().subscriptionId,resourceGroup().id)), 0, 13))]",    	
 	  "vhdStorageGroup":  "[resourceGroup().name]",     	
 	  "location": "[resourceGroup().location]",	  

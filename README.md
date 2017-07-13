@@ -53,7 +53,6 @@ Here are the pre-requisites before you invoke the template:
 | userImageContainerName | Specifies a storage container in the account specified by 'vhdStorageAccount' in which user images of XenApp 7.7 reside. | 
 | imageType | Specifies whether the template should deploy from the Azure Marketplace gallery or from user images in the storage account specified by 'vhdStorageAccount.' | 
 | imageQualifier | Specifies an additional qualifier to use for Marketplace image references. The value 'preview' is for images in staging, while the default value references production images. | 
-| publicDnsName | Specifies a unique public DNS prefix for the deployment. This will produce a FQDN of the form '<publicDnsName>.<location>.cloudapp.azure.com'. Up to 62 chars, digits or dashes, lowercase, should start with a letter: must conform to '^[a-z][a-z0-9-]{1,61}[a-z0-9]. | 
 | publicIpGroup | Specifies the resource group which should contain the public IP. | 
 | publicIpName | Specifies the resource name for the public IP. New IPs will take this name, while references to existing ones should be valid. | 
 | publicIpNewOrExisting | Specifies whether the public IP should be created or already exists. | 
