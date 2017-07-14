@@ -76,7 +76,7 @@ Here are the pre-requisites before you invoke the template:
 | CreateMasterImage | Specify if you want the VDI to be created as master Image, Note: If this option is specified the VDI are not provisioned to DDC. |
 | CustomCloudConnectorScriptUri | If you want to run any custom configuration on cloudConnector, specify the URL for the powershellScript. else leave it empty. |
 | CustomCloudConnectorScriptArgs | Arguments for Script, else leave it blank.|
-| CreateClientVDI | Creates a Windows 10 [HUB] CBB Image, if your subscription is not part of Azure Enterprise Agreement, choose "false".|
+| CreateClientVDI | Creates a Windows 10 [HUB] CBB Image, if your subscription is not part of Azure Enterprise Agreement, choose "false", the ARM Template will not create Windows 10 [HUB] CBB VM.|
 | ClientVDIInstallerUri | Url for the Standalone Desktop OS Virtual Delivery Agent Installer, which can be download [here](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html). |
-| CreateServerVDA | If you select "True", creates a Windows Server 2016 Server VDA. |
+| CreateServerVDA | If you select "True", ARM Template creates a Windows Server 2016 Server VDA. |
 | ServerVDAInstallerUrl | The Standalone Server OS Virtual Delivery Agent Installer, which can be downloaded [here](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html).|
