@@ -48,6 +48,7 @@ Here are the pre-requisites before you invoke the template:
 	[parameters.vda.json](https://github.com/citrix/Citrix-Cloud-ResourceLocation-Arm-Template/blob/master/parameters.vda.json)  => Example for Creating both Citrix Client VDI and Server VDI.
 	[parameters.win10.vda.json](https://github.com/citrix/Citrix-Cloud-ResourceLocation-Arm-Template/blob/master/parameters.win10.vda.json)  => Example for Creating only Citrix Client VDI.
 	[parameters.winserver2016.vda.json](https://github.com/citrix/Citrix-Cloud-ResourceLocation-Arm-Template/blob/master/parameters.winserver2016.vda.json)  => Example for Creating only Citrix Server VDI.
+	
 | Name   | Description    |
 |:--- |:---|
 | vhdStorageType | Specifies the type of storage account, if being created. | 
