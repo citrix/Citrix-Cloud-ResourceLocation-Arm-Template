@@ -28,47 +28,6 @@
         "description": "Specifies whether the storage account should be created or already exists."
       }
     },
-
-    "userImageContainerName": {
-      "type": "string",
-      "defaultValue": "images3",
-      "metadata": {
-        "description": "Specifies a storage container in the account specified by 'vhdStorageAccount' in which user images of XenApp 7.7 reside."
-      }
-    },
-
-    "imageType": {
-      "type": "string",
-      "defaultValue": "Gallery",
-      "allowedValues": [
-        "Gallery",
-        "User"
-      ],
-      "metadata": {
-        "description": "Specifies whether the template should deploy from the Azure Marketplace gallery or from user images in the storage account specified by 'vhdStorageAccount."
-      }
-    },
-
-    "imageQualifier": {
-      "type": "string",
-      "defaultValue": "",
-      "allowedValues": [
-        "",
-        "-preview"
-      ],
-      "metadata": {
-        "description": "Specifies an additional qualifier to use for Marketplace image references. The value 'preview' is for images in staging, while the default value references production images."
-      }
-    },
-   
-    "publicIpGroup": {
-      "type": "string",
-      "defaultValue": "[resourceGroup().name]",
-      "metadata": {
-        "description": "Specifies the resource group which should contain the public IP."
-      }
-    },
-
     "publicIpName": {
       "type": "string",
       "defaultValue": "PublicIp",
@@ -124,7 +83,6 @@
     
     "emailAddress": {
       "type": "string",
-      "defaultValue": "",
       "metadata": {
         "description": "Specifies the email address that that will be used to request a public SSL certificate for NetScaler gateway from letsencrypt.org on your behalf. This will also be used to notify you when the template has deployed successfully."
       }
@@ -214,19 +172,6 @@
       ]
     },
 
-    // Weather the Deployment Deploys Cloud Connector or Delivery Controller
-    "XAControllerDeployType": {
-      "type": "string",
-      "metadata": {
-        "description": "Specifies If Need to Connect to Cloud Connector or onpremisis DDC."
-      },
-      "defaultValue": "CloudConnectorSettings",
-      "allowedValues": [
-        "deliveryControllerSettings",
-        "CloudConnectorSettings"
-      ]
-    },
-
     //Cloud Connector Settings
     "Customer": {
       "type": "string",
@@ -254,19 +199,7 @@
       "metadata": {
         "description": "This ID can be retrieved on the Resource Locations page using the ID button."
       }
-    },
-
-    "UseTestControlPlane": {
-      "type": "string",
-      "metadata": {
-        "description": "Specify if the DDC used to provision is in test Control Plane or Production Control Plane"
-      },
-      "defaultValue": "false",
-      "allowedValues": [
-        "true",
-        "false"
-      ]
-    },
+    },    
 
     "CreateMasterImage": {
       "type": "string",
@@ -337,7 +270,12 @@
     }
   },
     
-  "variables": {	  
+  "variables": {   
+     "UseTestControlPlane": "false",      
+     "XAControllerDeployType": "CloudConnectorSettings",     
+      "imageQualifier": "",      
+      "imageType": "Gallery",      
+	  "publicIpGroup": "[resourceGroup().name]",
       "publicDnsName" :"[toLower(substring(concat('xenapp', uniqueString(subscription().subscriptionId,resourceGroup().id)), 0, 13))]",
 	  "siteName":"XenAppOnAzure",      
 	  "html5Mode": "Fallback",    	
@@ -359,11 +297,11 @@
 	  
 	  "XAcontrollerSettings" :{
 	    "deliveryControllerSettings": {
-          "templateUri": "[concat(variables('artifactsLocation'), 'creatingDeliveryController', parameters('imageType'), '.json')]",
+          "templateUri": "[concat(variables('artifactsLocation'), 'creatingDeliveryController', variables('imageType'), '.json')]",
 		  "extensionUri": "[concat(variables('artifactsLocation'), 'creatingDeliveryControllerGalleryExtension.json')]",
 		  "userImageUri": "[concat(variables('userImageLocation'), 'XD-ALL.vhd')]",
 		  "publisher": "citrix",
-		  "offer": "[concat('xenapp-server', parameters('imageQualifier'))]",
+		  "offer": "[concat('xenapp-server', variables('imageQualifier'))]",
 		  "sku": "coldfireserver",
 		  "machineName": "XD-Controller",
 		  "fqdn": "[concat('XD-Controller', '.', parameters('domainName'))]",
@@ -378,7 +316,7 @@
 		  "inboundRulesFinal": [ ]
         },
         "CloudConnectorSettings": {
-		  "templateUri": "[concat(variables('artifactsLocation'), 'creatingCloudConnector', parameters('imageType'), '.json')]",
+		  "templateUri": "[concat(variables('artifactsLocation'), 'creatingCloudConnector', variables('imageType'), '.json')]",
 		  "extensionUri": "[concat(variables('artifactsLocation'), 'creatingCloudConnectorGalleryExtension.json')]",
 		  "userImageUri" : "",
           "publisher": "MicrosoftWindowsServer",
@@ -410,8 +348,9 @@
 	  
       "deploymentFQDN": "[variables('currentDeployFQDN').deploymentFQDN]",
       "gatewayFQDN": "[concat(variables('publicDnsName'), '-', variables('location'), '.xenapponazure.com')]",
-
-      "userImageContainerName": "[parameters('userImageContainerName')]",
+	  	
+	
+      "userImageContainerName": "images3",
       "userImageLocation": "[concat('http://', variables('vhdStorageAccount'), '.blob.core.windows.net/', variables('userImageContainerName'), '/')]",
 
       "dscVersion": "2.19",
@@ -622,7 +561,7 @@
       ],
 
       "vdiServerSettings": {
-        "templateUri": "[concat(variables('artifactsLocation'), 'CreatingVDI', parameters('imageType'), '.json')]",                
+        "templateUri": "[concat(variables('artifactsLocation'), 'CreatingVDI', variables('imageType'), '.json')]",                
 		"extensionUri": "[concat(variables('artifactsLocation'), 'CreatingVDIServerGalleryExtension.json')]",
         "publisher": "MicrosoftWindowsServer",
         "offer": "WindowsServer",
@@ -643,7 +582,7 @@
       },
 
       "vdiSettings": {
-        "templateUri": "[concat(variables('artifactsLocation'), 'CreatingVDI', parameters('imageType'), '.json')]",                
+        "templateUri": "[concat(variables('artifactsLocation'), 'CreatingVDI', variables('imageType'), '.json')]",                
 		"extensionUri": "[concat(variables('artifactsLocation'), 'CreatingVDIGalleryExtension.json')]",
         "publisher": "MicrosoftWindowsServer",
         "offer": "Windows-HUB",
@@ -721,7 +660,7 @@
             "value": "[variables('publicDnsName')]"
           },
           "publicIpGroup": {
-            "value": "[parameters('publicIpGroup')]"
+            "value": "[variables('publicIpGroup')]"
           },
           "publicIpName": {
             "value": "[parameters('publicIpName')]"
@@ -781,7 +720,7 @@
             "value": "[variables('location')]"
           },
           "publicIpGroup": {
-            "value": "[parameters('publicIpGroup')]"
+            "value": "[variables('publicIpGroup')]"
           },
           "loadBalancerName": {
             "value": "[variables('loadBalancerSettings').name]"
@@ -942,7 +881,7 @@
             "value": "[parameters('azureGov')]"
           },
 		  "IsTestControlePlane" :{
-			"value": "[parameters('UseTestControlPlane')]"
+			"value": "[variables('UseTestControlPlane')]"
 		  },
 		  "CreateMasterImage" :{
 			"value": "[parameters('CreateMasterImage')]"
