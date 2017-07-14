@@ -41,13 +41,8 @@ Here are the pre-requisites before you invoke the template:
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
-
 # Template parameters:
 
-(Please refer :
-	[parameters.vda.json](https://github.com/citrix/Citrix-Cloud-ResourceLocation-Arm-Template/blob/master/parameters.vda.json)  => Example for Creating both Citrix Client VDI and Server VDI.
-	[parameters.win10.vda.json](https://github.com/citrix/Citrix-Cloud-ResourceLocation-Arm-Template/blob/master/parameters.win10.vda.json)  => Example for Creating only Citrix Client VDI.
-	[parameters.winserver2016.vda.json](https://github.com/citrix/Citrix-Cloud-ResourceLocation-Arm-Template/blob/master/parameters.winserver2016.vda.json)  => Example for Creating only Citrix Server VDI.
 	
 | Name   | Description    |
 |:--- |:---|
@@ -83,3 +78,13 @@ Here are the pre-requisites before you invoke the template:
 | ClientVDIInstallerUri | Url for the Standalone Desktop OS Virtual Delivery Agent Installer, which can be download [here](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html). |
 | CreateServerVDA | If you select "True", ARM Template creates a Windows Server 2016 Server VDA. |
 | ServerVDAInstallerUrl | The Standalone Server OS Virtual Delivery Agent Installer, which can be downloaded [here](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html).|
+
+# ARM Template Parameters Examples:
+
+
+| Example File  | Description    |
+|:--- |:---|
+| parameters.vda.json	| Example for Creating both Citrix Client VDI and Server VDI.|
+| parameters.win10.vda.json 	| Example for Creating only Citrix Client VDI. |
+| parameters.winserver2016.vda.json |  Example for Creating only Citrix Server VDI. |
+
