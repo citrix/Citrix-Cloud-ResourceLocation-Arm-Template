@@ -1,6 +1,6 @@
-# Citrix Cloud Xendesktop Resource Location Creation ARM Template
+# Citrix Cloud XenDesktop Resource Location Creation ARM Template
 
-This template creates a fully self-contained Resource Location for XenApp and XenDesktop service in Citrix Cloud, consisting of the following resources:
+This template creates a fully self-contained Resource Location Citrix XenDesktop service and Citrix XenDesktop Essentials Service, consisting of the following resources:
 
 * Windows Domain Controller
 * Citrix NetScaler VPX 11.1
@@ -31,8 +31,8 @@ Here are the pre-requisites before you invoke the template:
                 	id	=>	Passed as parameter for customerId.
                		Secret	=>	Passed as parameter for clientSecret.
 * Login to https://www.Citrix.com
-	Download latest RTM version of Desktop OS Virtual Delivery Agent for Windows 10 VDA
-	Download latest RTM version of Server OS Virtual Delivery Agent for Windows Server VDA
+	Download latest RTM version of [Desktop OS Virtual Delivery Agent](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html) for Windows 10 VDA
+	Download latest RTM version of [Server OS Virtual Delivery Agent](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html) for Windows Server VDA
 	Upload it to a share that can be accessed by Azure Resource Manager Template.
 
 # Click the button below to deploy
@@ -72,12 +72,11 @@ Here are the pre-requisites before you invoke the template:
 | clientID | Found on the API Access page. This is the secure client ID an administrator can create.|
 | clientSecret | Found on the API Access page. This is the secure client secret available via download after a secure client is created. |
 | ResourceLocationId | Specify a Name for a resourcelocation to be created on Citrix Cloud. |
-| DeploymentType | XenDesktop for Xendesktop Deployment, or XenApp for XenApp Deployment. |
-| UseTestControlPlane | Default False, and Always set it to false. |
+| UseTestControlPlane | Default False, and Always set it to false, otherwise deployment fails. |
 | CreateMasterImage | Specify if you want the VDI to be created as master Image, Note: If this option is specified the VDI are not provisioned to DDC. |
 | CustomCloudConnectorScriptUri | If you want to run any custom configuration on cloudConnector, specify the URL for the powershellScript. else leave it empty. |
 | CustomCloudConnectorScriptArgs | Arguments for Script, else leave it blank.|
-| CreateClientVDI | Creates a Windows 10 Hub Image, if your subscription is not part of Azure Enterprise Agreement, set it to false.|
-| ClientVDIInstallerUri | Url for the Standalone Desktop OS Virtual Delivery Agent Installer, which can be download from https://www.citrix.com website. |
-| CreateServerVDA | If True, creates a Windows Server 2016 Server VDA. |
-| ServerVDAInstallerUrl | The Standalone Server OS Virtual Delivery Agent Installer, which can be downloaded from https://www.citrix.com.|
+| CreateClientVDI | Creates a Windows 10 [HUB] CBB Image, if your subscription is not part of Azure Enterprise Agreement, choose "false".|
+| ClientVDIInstallerUri | Url for the Standalone Desktop OS Virtual Delivery Agent Installer, which can be download [here](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html). |
+| CreateServerVDA | If you select "True", creates a Windows Server 2016 Server VDA. |
+| ServerVDAInstallerUrl | The Standalone Server OS Virtual Delivery Agent Installer, which can be downloaded [here](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html).|
