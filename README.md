@@ -51,10 +51,6 @@ Here are the pre-requisites before you invoke the template:
 |:--- |:---|
 | vhdStorageType | Specifies the type of storage account, if being created. | 
 | vhdStorageNewOrExisting | Specifies whether the storage account should be created or already exists. | 
-| userImageContainerName | Specifies a storage container in the account specified by 'vhdStorageAccount' in which user images of XenApp 7.7 reside. | 
-| imageType | Specifies whether the template should deploy from the Azure Marketplace gallery or from user images in the storage account specified by 'vhdStorageAccount.' | 
-| imageQualifier | Specifies an additional qualifier to use for Marketplace image references. The value 'preview' is for images in staging, while the default value references production images. | 
-| publicIpGroup | Specifies the resource group which should contain the public IP. | 
 | publicIpName | Specifies the resource name for the public IP. New IPs will take this name, while references to existing ones should be valid. | 
 | publicIpNewOrExisting | Specifies whether the public IP should be created or already exists. | 
 | machineSize | Specifies the size of the virtual machines (6). | 
@@ -68,16 +64,14 @@ Here are the pre-requisites before you invoke the template:
 | artifactsBaseUrl | Specifies the base location of the child templates and desired state configuration scripts. | 
 | artifactsBaseUrlSasToken | Specifies the shared access signature token which provides access to the base artifacts location. | 
 | Azure Gov | Specify True if the deployment is for Azure Gov, otherwise false. |
-| XA Controller Deploy Type | For Citrix Cloud Provisioning select CloudConnectorSettings.|
 | Customer | This is the customer ID available in the Citrix Cloud console on the API Access page (within Identity and Access Management). |
 | clientID | Found on the API Access page. This is the secure client ID an administrator can create.|
 | clientSecret | Found on the API Access page. This is the secure client secret available via download after a secure client is created. |
 | ResourceLocationId | Specify a Name for a resourcelocation to be created on Citrix Cloud, if there is no resource location available, enter a new ResourceLocation Name |
-| UseTestControlPlane | Default False, and Always set it to false, otherwise deployment fails. |
 | CreateMasterImage | Specify if you want the VDI to be created as master Image, Note: If this option is specified the VDI are not provisioned to DDC. |
 | CustomCloudConnectorScriptUri | If you want to run any custom configuration on cloudConnector, specify the URL for the powershellScript. else leave it empty. |
 | CustomCloudConnectorScriptArgs | Arguments for Script, else leave it blank.|
-| CreateClientVDI | Creates a Windows 10 [HUB] CBB Image, if your subscription is not part of Azure Enterprise Agreement, choose "false", the ARM Template will not create Windows 10 [HUB] CBB VM.|
+| CreateClientVDA | Creates a Windows 10 [HUB] CBB Image, if your subscription is not part of Azure Enterprise Agreement, choose "false", the ARM Template will not create Windows 10 [HUB] CBB VM.|
 | ClientVDIInstallerUri | Url for the Standalone Desktop OS Virtual Delivery Agent Installer, which can be download [here](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html). |
 | CreateServerVDA | If you select "True", ARM Template creates a Windows Server 2016 Server VDA. |
 | ServerVDAInstallerUrl | The Standalone Server OS Virtual Delivery Agent Installer, which can be downloaded [here](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html).|
