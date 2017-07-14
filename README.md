@@ -41,13 +41,17 @@ Here are the pre-requisites before you invoke the template:
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
+# Example Parameters:
+Please refer :
+| Example File | Description |
+|:--- |:---|
+|	[parameters.vda.json](https://github.com/citrix/Citrix-Cloud-ResourceLocation-Arm-Template/blob/master/parameters.vda.json)	| Example for Creating both Citrix Client VDI and Server VDI.|
+|[parameters.win10.vda.json](https://github.com/citrix/Citrix-Cloud-ResourceLocation-Arm-Template/blob/master/parameters.win10.vda.json)  	| Example for Creating only Citrix Client VDI. |
+|[parameters.winserver2016.vda.json](https://github.com/citrix/Citrix-Cloud-ResourceLocation-Arm-Template/blob/master/parameters.winserver2016.vda.json) |  Example for Creating only Citrix Server VDI. |
+
 
 # Template parameters:
 
-(Please refer :
-	[parameters.vda.json](https://github.com/citrix/Citrix-Cloud-ResourceLocation-Arm-Template/blob/master/parameters.vda.json)  => Example for Creating both Citrix Client VDI and Server VDI.
-	[parameters.win10.vda.json](https://github.com/citrix/Citrix-Cloud-ResourceLocation-Arm-Template/blob/master/parameters.win10.vda.json)  => Example for Creating only Citrix Client VDI.
-	[parameters.winserver2016.vda.json](https://github.com/citrix/Citrix-Cloud-ResourceLocation-Arm-Template/blob/master/parameters.winserver2016.vda.json)  => Example for Creating only Citrix Server VDI.
 	
 | Name   | Description    |
 |:--- |:---|
