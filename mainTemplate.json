@@ -343,7 +343,7 @@
 		  "inboundRulesFinal": [ ]
         }
 	  },
-	    "XAControllerSetting": "[variables('XAcontrollerSettings')[parameters('XAControllerDeployType')]]",	  
+	    "XAControllerSetting": "[variables('XAcontrollerSettings')[variables('XAControllerDeployType')]]",	  
       "currentDeployFQDN": "[variables('deployFQDN')[parameters('azureGov')]]",
 	  
       "deploymentFQDN": "[variables('currentDeployFQDN').deploymentFQDN]",
