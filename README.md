@@ -1,6 +1,6 @@
 # Citrix Cloud XenDesktop Resource Location Creation ARM Template
 
-This template creates a fully self-contained Resource Location Citrix XenDesktop service and Citrix XenDesktop Essentials Service, consisting of the following resources:
+This template creates a fully self-contained Resource Location for either Citrix XenDesktop service or Citrix XenDesktop Essentials Service, consisting of the following resources:
 
 * Windows Domain Controller
 * Citrix NetScaler VPX 11.1
@@ -20,7 +20,7 @@ This template creates a fully self-contained Resource Location Citrix XenDesktop
 Here are the pre-requisites before you invoke the template:
 
 *  At least 20 Cores should be available within your Azure subscription.
-*  For subscription used to deploy this Azure ARM Template, Want to deploy programmatically? option must be enabled for ["Citrix NetScaler 11.1 VPX Bring Your Own License"](https://portal.azure.com/#create/citrix.netscalervpx111netscalerbyol)  offer within Azure Marketplace.
+*  For subscription used to deploy this Azure ARM Template, Want to deploy programmatically? option must be enabled for [Citrix NetScaler 11.1 VPX Bring Your Own License](https://portal.azure.com/#create/citrix.netscalervpx111netscalerbyol)  offer within Azure Marketplace.
 *  If you want to deploy Windows 10 HUB image, make sure your Azure subscription is part of Azure Enterprise Agreement.	
 *  Login to https://citrix.cloud.com/  
 		*  Navigate to "Identity and Access Management".  		
@@ -61,17 +61,17 @@ Here are the pre-requisites before you invoke the template:
 | adminPassword | Specifies the password of the administrator for machines, Active Directory domain, NetScaler and XenApp. | 
 | domainName | Specifies the name of the newly created Active Directory domain. | 
 | emailAddress | Specifies the email address that that will be used to request a public SSL certificate for NetScaler gateway from letsencrypt.org on your behalf. This will also be used to notify you when the template has deployed successfully. | 
-| acmeServer | Specifies the ACME protocol server used for public TLS certificate requests. Allowed values correspond to letsencrypt.org staging or production. | 
+| acmeServer | Specifies the ACME protocol server used for public TLS certificate requests. Allowed values correspond to letsencrypt.org  or any certficate provision service. | 
 | customInboundRules | Specifies additional inbound NAT rules to apply in this deployment. Useful for exposing individual machines more directly. The parameter is specified as an object, as in the default. See variable 'loadBalancerSettings' for an example format. | 
 | customApplications | Specifies additional applications to be installed on the VDA and published through XenApp. The parameter is specified as an array of objects, as in the default. See variables 'applications', 'vdaSettings', and 'storeFrontSettings' for an example format.  | 
 | artifactsBaseUrl | Specifies the base location of the child templates and desired state configuration scripts. | 
 | artifactsBaseUrlSasToken | Specifies the shared access signature token which provides access to the base artifacts location. | 
 | Azure Gov | Specify True if the deployment is for Azure Gov, otherwise false. |
-| XA Controller Deploy Type | For Citrix Cloud Provisioning select CloudConnectorSettings, otherwise delivery Controller Settings.|
+| XA Controller Deploy Type | For Citrix Cloud Provisioning select CloudConnectorSettings.|
 | Customer | This is the customer ID available in the Citrix Cloud console on the API Access page (within Identity and Access Management). |
 | clientID | Found on the API Access page. This is the secure client ID an administrator can create.|
 | clientSecret | Found on the API Access page. This is the secure client secret available via download after a secure client is created. |
-| ResourceLocationId | Specify a Name for a resourcelocation to be created on Citrix Cloud. |
+| ResourceLocationId | Specify a Name for a resourcelocation to be created on Citrix Cloud, if there is no resource location available, enter a new ResourceLocation Name |
 | UseTestControlPlane | Default False, and Always set it to false, otherwise deployment fails. |
 | CreateMasterImage | Specify if you want the VDI to be created as master Image, Note: If this option is specified the VDI are not provisioned to DDC. |
 | CustomCloudConnectorScriptUri | If you want to run any custom configuration on cloudConnector, specify the URL for the powershellScript. else leave it empty. |
