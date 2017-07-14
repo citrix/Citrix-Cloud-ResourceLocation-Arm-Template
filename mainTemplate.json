@@ -346,14 +346,14 @@
 	  "location": "[resourceGroup().location]",	  
       "artifactsLocation": "[concat(parameters('artifactsBaseUrl'),'/')]",
       "artifactsLocationSasToken": "[parameters('artifactsBaseUrlSasToken')]",
-      "deploymentFQDNPublicCloudtrue": "[concat(parameters('publicDnsName'), '.', variables('location'), '.cloudapp.azure.com')]",
-      "deploymentFQDNPublicCloudfalse": "[concat(parameters('publicDnsName'), '.', variables('location'), '.cloudapp.usgovcloudapi.net')]",
+      "deploymentFQDNPublicCloudtrue": "[concat(variables('publicDnsName'), '.', variables('location'), '.cloudapp.azure.com')]",
+      "deploymentFQDNPublicCloudfalse": "[concat(variables('publicDnsName'), '.', variables('location'), '.cloudapp.usgovcloudapi.net')]",
       "deployFQDN": {
         "true": {
-          "deploymentFQDN": "[concat(parameters('publicDnsName'), '.', variables('location'), '.cloudapp.usgovcloudapi.net')]"
+          "deploymentFQDN": "[concat(variables('publicDnsName'), '.', variables('location'), '.cloudapp.usgovcloudapi.net')]"
         },
         "false": {
-          "deploymentFQDN": "[concat(parameters('publicDnsName'), '.', variables('location'), '.cloudapp.azure.com')]"
+          "deploymentFQDN": "[concat(variables('publicDnsName'), '.', variables('location'), '.cloudapp.azure.com')]"
         }
       },
 	  
@@ -409,7 +409,7 @@
       "currentDeployFQDN": "[variables('deployFQDN')[parameters('azureGov')]]",
 	  
       "deploymentFQDN": "[variables('currentDeployFQDN').deploymentFQDN]",
-      "gatewayFQDN": "[concat(parameters('publicDnsName'), '-', variables('location'), '.xenapponazure.com')]",
+      "gatewayFQDN": "[concat(variables('publicDnsName'), '-', variables('location'), '.xenapponazure.com')]",
 
       "userImageContainerName": "[parameters('userImageContainerName')]",
       "userImageLocation": "[concat('http://', variables('vhdStorageAccount'), '.blob.core.windows.net/', variables('userImageContainerName'), '/')]",
@@ -718,7 +718,7 @@
             "value": "[variables('location')]"
           },
           "publicDnsName": {
-            "value": "[parameters('publicDnsName')]"
+            "value": "[variables('publicDnsName')]"
           },
           "publicIpGroup": {
             "value": "[parameters('publicIpGroup')]"
