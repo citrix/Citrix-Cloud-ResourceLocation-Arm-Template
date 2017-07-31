@@ -39,7 +39,7 @@ Here are the pre-requisites before you invoke the template:
 	Download latest RTM version of [Server OS Virtual Delivery Agent](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html) for Windows Server VDA
 	Upload it to a share that can be accessed by Azure Resource Manager Template.
 
-*Note:The downloaded Standalone VDA Installer can be either be uploaded  to your existing Azure Storage Account  or create an temporary Azure Storage Account which could be deleted once the deployment is completed.
+*Note:The downloaded Standalone VDA Installer can be either be uploaded  to your existing Azure Storage Account  or create an temporary Azure Storage Account and upload the installer to either file or blob container, and use the url as parameter to ARM Template, this storage account deleted once the deployment is completed.
 
 # Click the button below to deploy
 
