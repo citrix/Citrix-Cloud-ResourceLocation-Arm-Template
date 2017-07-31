@@ -31,12 +31,15 @@ Here are the pre-requisites before you invoke the template:
 		*  Note down :
                 	id	=>	Passed as parameter for customerId.
                	Secret	=>	Passed as parameter for clientSecret.
-			
-*  If CloudConnector needs to be created under existing Citrix Cloud Resource Location, on https://citrix.cloud.com/ click Resource Location and Not the Name of the Resource Location and not the ID, and pass the exact name as parameter to ResourceLocationId Parameter.
+		*  If CloudConnector needs to be created under existing Citrix Cloud Resource Location, click Resource Location on Menu 
+		   and Not the Name of the Resource Location and not the ID, and pass the exact name as parameter to ResourceLocationId 
+		   Parameter.
 * Login to https://www.Citrix.com
 	Download latest RTM version of [Desktop OS Virtual Delivery Agent](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html) for Windows 10 VDA
 	Download latest RTM version of [Server OS Virtual Delivery Agent](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html) for Windows Server VDA
 	Upload it to a share that can be accessed by Azure Resource Manager Template.
+
+*Note:The downloaded Standalone VDA Installer can be either be uploaded  to your existing Azure Storage Account  or create an temporary Azure Storage Account which could be deleted once the deployment is completed.
 
 # Click the button below to deploy
 
@@ -75,9 +78,9 @@ Here are the pre-requisites before you invoke the template:
 | CustomCloudConnectorScriptUri | If you want to run any custom configuration on cloudConnector, specify the URL for the powershellScript. else leave it empty. |
 | CustomCloudConnectorScriptArgs | Arguments for Script, else leave it blank.|
 | CreateClientVDA | Creates a Windows 10 [HUB] CBB Image, if your subscription is not part of Azure Enterprise Agreement, choose "false", the ARM Template will not create Windows 10 [HUB] CBB VM.|
-| ClientVDIInstallerUri | Url for the Standalone Desktop OS Virtual Delivery Agent Installer, which can be download [here](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html). *Note:The downloaded Standalone VDA Installer should be uploaded your existing or temporary Storage Account which can be later deleted once the deployment is completed. |
+| ClientVDIInstallerUri | Url for the Standalone Desktop OS Virtual Delivery Agent Installer, which can be download [here](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html). The downloaded Standalone VDA Installer can be either be uploaded  to your existing Azure Storage Account  or create an temporary Azure Storage Account which could be deleted once the deployment is completed. |
 | CreateServerVDA | If you select "True", ARM Template creates a Windows Server 2016 Server VDA. |
-| ServerVDAInstallerUrl | The Standalone Server OS Virtual Delivery Agent Installer, which can be downloaded [here](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html). *Note:The downloaded Standalone VDA Installer should be uploaded your existing or temporary Storage Account which can be later deleted once the deployment is completed.|
+| ServerVDAInstallerUrl | The Standalone Server OS Virtual Delivery Agent Installer, which can be downloaded [here](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html). The downloaded Standalone VDA Installer can be either be uploaded  to your existing Azure Storage Account  or create an temporary Azure Storage Account which could be deleted once the deployment is completed.|
 
 # ARM Template Parameters Examples:
 
