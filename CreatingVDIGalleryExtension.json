@@ -96,7 +96,7 @@
 						"fileUris": [
 							"[concat(parameters('artifactsLocationUri'), '/Resources/VDICustomScript/VDICustomScript.ps1')]"
 						],
-						"commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File C:\\Packages\\Plugins\\Microsoft.Compute.CustomScriptExtension\\1.8\\Downloads\\0\\VDICustomScript.ps1 ', variables('args'))]"
+						"commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File C:\\Packages\\Plugins\\Microsoft.Compute.CustomScriptExtension\\1.9\\Downloads\\0\\VDICustomScript.ps1 ', variables('args'))]"
 			},
 			"protectedSettings": {
 				"Items": {
