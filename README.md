@@ -22,14 +22,17 @@ Here are the pre-requisites before you invoke the template:
 *  At least 20 Cores should be available within your Azure subscription.
 *  For subscription used to deploy this Azure ARM Template, Want to deploy programmatically? option must be enabled for [Citrix NetScaler 11.1 VPX Bring Your Own License](https://portal.azure.com/#create/citrix.netscalervpx111netscalerbyol)  offer within Azure Marketplace.
 *  If you want to deploy Windows 10 HUB image, make sure your Azure subscription is part of Azure Enterprise Agreement.	
-*  Login to https://citrix.cloud.com/  
+*  Login to https://citrix.cloud.com/
+
 		*  Navigate to "Identity and Access Management".  		
 		*  Click "API Access".		
 		*  Enter a name for Secure Client and click Create Client.
 		*  Once Secure Client is created, download Secure Client Credentials file.
 		*  Note down :
                 	id	=>	Passed as parameter for customerId.
-               		Secret	=>	Passed as parameter for clientSecret.
+               	Secret	=>	Passed as parameter for clientSecret.
+			
+*  If CloudConnector needs to be created under existing Citrix Cloud Resource Location, on https://citrix.cloud.com/ click Resource Location and Not the Name of the Resource Location and not the ID, and pass the exact name as parameter to ResourceLocationId Parameter.
 * Login to https://www.Citrix.com
 	Download latest RTM version of [Desktop OS Virtual Delivery Agent](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html) for Windows 10 VDA
 	Download latest RTM version of [Server OS Virtual Delivery Agent](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html) for Windows Server VDA
@@ -72,9 +75,9 @@ Here are the pre-requisites before you invoke the template:
 | CustomCloudConnectorScriptUri | If you want to run any custom configuration on cloudConnector, specify the URL for the powershellScript. else leave it empty. |
 | CustomCloudConnectorScriptArgs | Arguments for Script, else leave it blank.|
 | CreateClientVDA | Creates a Windows 10 [HUB] CBB Image, if your subscription is not part of Azure Enterprise Agreement, choose "false", the ARM Template will not create Windows 10 [HUB] CBB VM.|
-| ClientVDIInstallerUri | Url for the Standalone Desktop OS Virtual Delivery Agent Installer, which can be download [here](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html). |
+| ClientVDIInstallerUri | Url for the Standalone Desktop OS Virtual Delivery Agent Installer, which can be download [here](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html). This VDA should be uploaded to either publically accessable URL or use your existing Storage Account to upload the Installer which can be later deleted once the deployment is completed. |
 | CreateServerVDA | If you select "True", ARM Template creates a Windows Server 2016 Server VDA. |
-| ServerVDAInstallerUrl | The Standalone Server OS Virtual Delivery Agent Installer, which can be downloaded [here](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html).|
+| ServerVDAInstallerUrl | The Standalone Server OS Virtual Delivery Agent Installer, which can be downloaded [here](https://www.citrix.com/downloads/xenapp-and-xendesktop/product-software/xenapp-and-xendesktop-714.html). This VDA should be uploaded to either publically accessable URL or use your existing Storage Account to upload the Installer which can be later deleted once the deployment is completed.|
 
 # ARM Template Parameters Examples:
 
